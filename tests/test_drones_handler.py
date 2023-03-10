@@ -4,8 +4,13 @@ from http import HTTPStatus
 import json
 
 class TestDronesHandler(unittest.TestCase):
+
+    def setUp(self):
+        self.base_url = 'http://127.0.0.1:8080'
+
+
     def test_drones_listing(self):
-        resp = req.get('http://127.0.0.1:8080/api/v1/drones')
+        resp = req.get(self.base_url + '/api/v1/drones')
         self.assertIsNotNone(resp)
         self.assertEqual(resp.status_code, HTTPStatus.OK)
         self.assertEqual(resp.headers['Content-Type'], 'application/json')

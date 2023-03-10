@@ -7,6 +7,7 @@ from api.utils import (
 )
 
 class TestUtils(unittest.TestCase):
+    
     def test_json_response(self):
         payload = {
             'key': 'value'
@@ -14,6 +15,7 @@ class TestUtils(unittest.TestCase):
         json_str = json_response(payload)
         self.assertTrue(isinstance(json_str, str))
         self.assertEqual(json_str, '{"key": "value"}')
+
 
     def test_error_response(self):
         reason = 'something happend'
