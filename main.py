@@ -5,6 +5,10 @@ from bottle import (
 )
 from api.v1.handler import handler as api_v1
 from api.utils import error_response
+from db.sqlite import helper
+from db.setup import run_migrations
+
+run_migrations(helper)
 
 root = application = Bottle()
 
