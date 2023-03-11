@@ -1,5 +1,9 @@
 from bottle import Bottle
-from api.utils import json_response
+from api.utils import (
+    data_response,
+    error_response
+)
+from db.sqlite import helper
 
 drones_handler = Bottle()
 
@@ -17,13 +21,8 @@ def list():
     '''
     Lists available drones
     '''
-    drones = [
-        {
-            'serial_number': 'LW001',
-            'model': 'Lightweight',
-            'weight_limit': 150,
-            'battery_capacity': 85,
-            'state': 'IDLE'
-        }
-    ]
-    return json_response(drones)
+    ok, drones = helper.query('select * from "drones";')
+    if ok:
+        return data_response(drones)
+    else:
+        return error_response()
