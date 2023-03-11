@@ -23,7 +23,7 @@ class SqliteHelper(DbHelper):
             rows = self.__zip_records()
         except Exception as ex:
             ok = False
-            print('ERR - ' + ex)
+            print('ERR - ' + str(ex))
         return ok, rows
 
 
@@ -40,7 +40,7 @@ class SqliteHelper(DbHelper):
         except Exception as ex:
             ok = False
             self.conn.rollback()
-            print('ERR - ' + ex)
+            print('ERR - ' + str(ex))
         return ok
 
 
