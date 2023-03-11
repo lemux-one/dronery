@@ -45,3 +45,13 @@ def error_response(
         },
         status_code=status_code
     )
+
+
+def error_404(reason: str = 'Not Found') -> str:
+    '''
+    Prepares a stringified JSON response to notify custom 404 error.
+    '''
+    return error_response(
+        reason=reason,
+        status_code=HTTPStatus.NOT_FOUND
+    )
