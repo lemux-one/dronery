@@ -1,5 +1,5 @@
-from bottle import Bottle
+from api.api_bottle import ApiBottle
 from .drones import drones_handler
 
-handler = Bottle()
+handler = ApiBottle()
 handler.mount('/drones', drones_handler)

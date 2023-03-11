@@ -1,31 +1,36 @@
 from http import HTTPStatus
-from bottle import (
-    Bottle,
-    response
-)
-from api.v1.handler import handler as api_v1
-from api.utils import error_response
+from bottle import response
+from api.api_bottle import ApiBottle
+import api.v1
 from db.sqlite import helper
 from db.setup import run_migrations
 
 run_migrations(helper)
+root = application = ApiBottle()
 
-root = application = Bottle()
+@root.hook('after_request')
+def enable_cors():
+    '''
+    Add headers to enable CORS
+    '''
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Authorization, Origin, Accept, Content-Type, X-Requested-With'
 
-@root.route('/')
+@root.route('/', method = 'OPTIONS')
+@root.route('/<path:path>', method = 'OPTIONS')
+def options_handler(path = None):
+    return
+
+@root.get('/')
 def index():
+    '''
+    A default response for the root path.
+    '''
     return 'Welcome to Dronery REST API'
 
 # delegate to actual API endpoint handler
-root.mount('/api/v1', api_v1)
-
-@root.route('/<endpoint:path>')
-def unknown(endpoint):
-    '''
-    Handle every path not already mapped to a valid API call as 404 error.
-    '''
-    return error_response(f'Unknown endpoint: {endpoint}', HTTPStatus.NOT_FOUND)
-
+root.mount('/api/v1', api.v1.handler)
 
 if __name__ == '__main__':
     # if Gunicorn is installed (using Bottle's adapter)

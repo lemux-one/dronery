@@ -1,13 +1,13 @@
-from bottle import Bottle
 from http import HTTPStatus
+from bottle import abort
+from api.api_bottle import ApiBottle
 from api.utils import (
     data_response,
-    error_response,
-    error_404
+    error_response
 )
 from db.sqlite import helper
 
-drones_handler = Bottle()
+drones_handler = ApiBottle()
 
 '''
 A Drone has:
@@ -39,12 +39,4 @@ def show(id):
     if ok and drones:
         return data_response(drones[0])
     else:
-        return error_404(f'Drone with id {id} was not found')
-
-
-@drones_handler.route('/<endpoint:path>')
-def unknown(endpoint):
-    '''
-    Captures any invalid/unknown path and responds with a custom 404 notice.
-    '''
-    return error_404(f'Unknown endpoint "{endpoint}"')
+        abort(HTTPStatus.NOT_FOUND, f'Drone with id "{id}" was not found')
