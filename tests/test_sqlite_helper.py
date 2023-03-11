@@ -11,7 +11,7 @@ class TestSqliteHelper(unittest.TestCase):
 
 
     def test_count_tables(self):
-        sql = '''select count(*) as total_tables from sqlite_master;'''
+        sql = '''select count(*) as total_tables from sqlite_master where type="table";'''
         ok, rows = self.helper.query(sql)
         self.assertTrue(ok)
         self.assertEqual(len(rows), 1)
@@ -33,5 +33,5 @@ class TestSqliteHelper(unittest.TestCase):
     
 
     def __count_tables(self):
-        _, rows = self.helper.query('select count(*) as count from sqlite_master;')
+        _, rows = self.helper.query('select count(*) as count from sqlite_master where type="table";')
         return rows[0]['count']
