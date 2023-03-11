@@ -15,13 +15,18 @@ class TestDronesHandler(unittest.TestCase):
         self.assertEqual(resp.status_code, HTTPStatus.OK)
         self.assertEqual(resp.headers['Content-Type'], 'application/json')
 
-        drones_list = json.loads(resp.content)
-        self.assertTrue(isinstance(drones_list, list))
+        payload = json.loads(resp.content)
+        self.assertTrue(isinstance(payload, dict))
+        self.assertTrue('status' in payload.keys())
+        self.assertEqual(payload['status'], HTTPStatus.OK)
+
+        self.assertTrue('data' in payload.keys())
+        drones_list = payload['data']
 
         if len(drones_list) > 0:
             drone = drones_list[0]
             self.assertTrue('serial_number' in drone.keys())
             self.assertTrue('model' in drone.keys())
-            self.assertTrue('weight_limit' in drone.keys())
+            self.assertTrue('weight' in drone.keys())
             self.assertTrue('battery_capacity' in drone.keys())
             self.assertTrue('state' in drone.keys())
