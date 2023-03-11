@@ -5,6 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Bottle",
+            "type": "python",
+            "request": "launch",
+            "module": "bottle",
+            "args": [
+                "--debug",
+                "--reload",
+                "main:root"
+            ]
+        },
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
