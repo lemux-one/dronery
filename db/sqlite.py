@@ -10,7 +10,7 @@ class SqliteHelper(DbHelper):
         self.conn = sqlite3.connect(':memory:')
     
 
-    def query(self, select_query):
+    def query(self, select_query: str, params: list = []) -> (bool, list):
         '''
         This method is meant for simple SELECT queries.
         It does not commit and does not rollback on errors.
@@ -19,7 +19,7 @@ class SqliteHelper(DbHelper):
         ok = True
         try:
             self.cur = self.conn.cursor()
-            self.cur.execute(select_query)
+            self.cur.execute(select_query, params)
             rows = self.__zip_records()
         except Exception as ex:
             ok = False
@@ -27,7 +27,7 @@ class SqliteHelper(DbHelper):
         return ok, rows
 
 
-    def exec(self, sql_cmd):
+    def exec(self, sql_cmd: str, params: list = []) -> bool:
         '''
         This method is meant for data modification queries.
         It commits if no error ocurred or rolls back if something happened.
@@ -35,7 +35,7 @@ class SqliteHelper(DbHelper):
         ok = True
         try:
             self.cur = self.conn.cursor()
-            self.cur.execute(sql_cmd)
+            self.cur.execute(sql_cmd, params)
             self.conn.commit()
         except Exception as ex:
             ok = False
