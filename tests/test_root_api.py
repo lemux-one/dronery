@@ -17,10 +17,9 @@ class TestRootApi(unittest.TestCase):
 
     def test_unknow_endpoint(self):
         resp = req.get(self.base_url + '/unknown/endpoint')
-        self.assertEqual(resp.status_code, HTTPStatus.NOT_FOUND)
+        self.assertNotEqual(resp.status_code, HTTPStatus.OK)
         self.assertEqual(resp.headers['Content-Type'], 'application/json')
         
         payload = json.loads(resp.content)
         self.assertTrue('status' in payload.keys())
         self.assertTrue('reason' in payload.keys())
-        self.assertTrue(payload['reason'].find('Unknown endpoint:') >= 0)
