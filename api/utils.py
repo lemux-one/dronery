@@ -14,7 +14,8 @@ class ApiError(Exception):
         ):
         self.status_code = status_code
         self.message = message
-        log(self.message, 'ERROR')
+        if self.status_code >= 500:
+            log(self.message, 'ERROR')
 
 
 def log(message: str, level: str = 'INFO'):
