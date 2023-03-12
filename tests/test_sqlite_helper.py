@@ -26,8 +26,10 @@ class TestSqliteHelper(unittest.TestCase):
             PRIMARY KEY ("id")
         );'''
         before = self.__count_tables()
-        ok = self.helper.exec(sql)
+        ok, info = self.helper.exec(sql)
         self.assertTrue(ok)
+        self.assertTrue('last_id' in info.keys())
+        self.assertTrue('row_count' in info.keys())
         after = self.__count_tables()
         self.assertEqual(after, before + 1)
     

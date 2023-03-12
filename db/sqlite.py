@@ -28,21 +28,24 @@ class SqliteHelper(DbHelper):
         return ok, rows
 
 
-    def exec(self, sql_cmd: str, params: list = []) -> bool:
+    def exec(self, sql_cmd: str, params: list = []) -> (bool, dict):
         '''
         This method is meant for data modification queries.
         It commits if no error ocurred or rolls back if something happened.
         '''
         ok = True
+        cur_info = {}
         try:
             self.cur = self.conn.cursor()
             self.cur.execute(sql_cmd, params)
             self.conn.commit()
+            cur_info['last_id'] = self.cur.lastrowid
+            cur_info['row_count'] = self.cur.rowcount
         except Exception as ex:
             ok = False
             self.conn.rollback()
             log(str(ex), 'ERROR')
-        return ok
+        return ok, cur_info
 
 
     def close(self) -> None:
