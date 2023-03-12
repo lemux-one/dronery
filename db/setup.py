@@ -1,8 +1,9 @@
 from db.db_helper import DbHelper
+from api.utils import log
 
 class MigrationsException(Exception):
     def __str__(self) -> str:
-        return "ERR - An error ocurred while running migrations. See log for details."
+        return "Unable to run migrations. See previous logs for details."
 
 def run_migrations(dbhelper: DbHelper) -> None:
     '''
@@ -10,7 +11,7 @@ def run_migrations(dbhelper: DbHelper) -> None:
     This function is meant to be called before anything else in
     order to provide initial database structure and data.
     '''
-    print('INF - Running migrations using DbHelper: ' + str(dbhelper))
+    log('Running migrations using DbHelper: ' + str(dbhelper.__class__))
     script = ""
     statements = []
     with open('migrations.sql', mode='r', encoding='utf-8') as file:
@@ -24,6 +25,6 @@ def run_migrations(dbhelper: DbHelper) -> None:
     for statement in statements:
         ok = ok and dbhelper.exec(statement)
     if ok:
-        print('INF - Migrations applied!')
+        log('Migrations applied!')
     else:
         raise(MigrationsException())

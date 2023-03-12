@@ -1,5 +1,6 @@
 import sqlite3
 from db.db_helper import DbHelper
+from api.utils import log
 
 class SqliteHelper(DbHelper):
 
@@ -23,7 +24,7 @@ class SqliteHelper(DbHelper):
             rows = self.__zip_records()
         except Exception as ex:
             ok = False
-            print('ERR - ' + str(ex))
+            log(str(ex), 'ERROR')
         return ok, rows
 
 
@@ -40,7 +41,7 @@ class SqliteHelper(DbHelper):
         except Exception as ex:
             ok = False
             self.conn.rollback()
-            print('ERR - ' + str(ex))
+            log(str(ex), 'ERROR')
         return ok
 
 
