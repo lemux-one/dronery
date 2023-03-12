@@ -1,7 +1,20 @@
 import json
 from http import HTTPStatus
-from bottle import response
+from bottle import (
+    response,
+    request
+)
 from datetime import datetime
+
+
+class ApiError(Exception):
+    def __init__(self, 
+            status_code: HTTPStatus = HTTPStatus.INTERNAL_SERVER_ERROR,
+            message: str = 'Unexpected error'
+        ):
+        self.status_code = status_code
+        self.message = message
+        log(self.message, 'ERROR')
 
 
 def log(message: str, level: str = 'INFO'):
@@ -51,3 +64,13 @@ def error_response(
         },
         status_code=status_code
     )
+
+
+def extract_payload() -> dict:
+    if request.content_type != 'application/json':
+        abort(HTTPStatus.BAD_REQUEST, 'Only json-formatted payload accepted')
+    try:
+        return request.json
+    except JSONDecodeError as ex:
+        log(str(ex), 'ERROR')
+        abort(HTTPStatus.BAD_REQUEST, 'Invalid json')
