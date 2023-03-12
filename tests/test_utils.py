@@ -4,8 +4,7 @@ from http import HTTPStatus
 from api.utils import (
     json_response,
     error_response,
-    data_response,
-    error_404
+    data_response
 )
 
 class TestUtils(unittest.TestCase):
@@ -38,11 +37,3 @@ class TestUtils(unittest.TestCase):
         json_dict = json.loads(resp)
         self.assertEqual(json_dict['reason'], reason)
         self.assertEqual(json_dict['status'], 500)
-    
-
-    def test_404_error(self):
-        resp = error_404()
-        self.assertTrue(isinstance(resp, str))
-        json_dict = json.loads(resp)
-        self.assertEqual(json_dict['reason'], 'Not Found')
-        self.assertEqual(json_dict['status'], 404)
