@@ -17,3 +17,6 @@ class DbHelper():
     
     def close(self) -> None:
         ...
+    
+    def exists_table(self, table_name:str) -> bool:
+        ...

@@ -56,6 +56,13 @@ class SqliteHelper(DbHelper):
         self.conn.close()
     
 
+    def exists_table(self, table_name:str) -> bool:
+        sql = '''select count(*) as count from sqlite_master 
+            where type = "table" and name = ?;'''
+        ok, rows = self.query(sql, [table_name,])
+        return ok and rows and rows[0]['count'] == 1
+    
+
     def __zip_records(self) -> list:
         '''
         Utility to map every record item to its corresponding description header.
