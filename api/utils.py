@@ -1,6 +1,12 @@
 import json
 from http import HTTPStatus
 from bottle import response
+from datetime import datetime
+
+
+def log(message: str, level: str = 'INFO'):
+    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    print(f'[{level}] | {now} | {message}')
 
 
 def json_response(
@@ -44,14 +50,4 @@ def error_response(
             'reason': reason
         },
         status_code=status_code
-    )
-
-
-def error_404(reason: str = 'Not Found') -> str:
-    '''
-    Prepares a stringified JSON response to notify custom 404 error.
-    '''
-    return error_response(
-        reason=reason,
-        status_code=HTTPStatus.NOT_FOUND
     )
