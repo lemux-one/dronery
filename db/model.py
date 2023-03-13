@@ -7,7 +7,7 @@ class Field:
     SELECT_TYPE = 'select'
 
     def __init__(self, name: str, dtype: str, min: float = None, max: float = None, 
-            options: list = None, unique: bool = False, null: bool = False, 
+            options: list = None, unique: bool = False, null: bool = False, regex: str = None,
             validator = None, pk: bool = False, fk: bool = False, ftable: str = None):
         self.name = name
         self.dtype = dtype
@@ -16,6 +16,7 @@ class Field:
         self.options = options if options else []
         self.unique = unique
         self.null = null
+        self.regex = regex
         self.validator = validator
         self.pk = pk
         self.fk = fk
