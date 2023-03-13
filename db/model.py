@@ -6,8 +6,9 @@ class Field:
     VARCHAR_TYPE = 'varchar'
     SELECT_TYPE = 'select'
 
-    def __init__(self, name: str, dtype: str, min: float = None, max: float = None, options: list = None,
-            unique: bool = False, null: bool = False, validator = None, pk: bool = False):
+    def __init__(self, name: str, dtype: str, min: float = None, max: float = None, 
+            options: list = None, unique: bool = False, null: bool = False, 
+            validator = None, pk: bool = False, fk: bool = False, ftable: str = None):
         self.name = name
         self.dtype = dtype
         self.max = max
@@ -17,6 +18,8 @@ class Field:
         self.null = null
         self.validator = validator
         self.pk = pk
+        self.fk = fk
+        self.ftable = ftable
 
 class Model:
     def __init__(self, table: str):
@@ -37,7 +40,7 @@ class Model:
         for field in self.fields:
             if not field.pk or include_pk:
                 if field.name in skeys:
-                    ok, hint = self.validate(field.name, source[field.name])
+                    ok, hint = self.validate(field, source[field.name])
                     if ok:
                         self.obj[field.name] = source[field.name]
                     else:
@@ -47,20 +50,19 @@ class Model:
                     self.obj.clear()
                     raise ValueError(f'Required field "{field.name}" not found in given data')
     
-    def validate(self, field_name: str, value) -> (bool, str):
-        field = self.fields_map.get(field_name)
+    def validate(self, field: Field, value) -> (bool, str):
         if not field:
             return False
         if callable(field.validator):
-            return field.validator(value)
+            return field.validator(field, value)
         else:
             dtype = field.dtype.lower()
             if dtype == Field.INTEGER_TYPE:
-                return validator.validate_int(value, field.min, field.max)
+                return validator.validate_int(field, value)
             elif dtype == Field.VARCHAR_TYPE:
-                return validator.validate_varchar(value, field.min, field.max)
+                return validator.validate_varchar(field, value)
             elif dtype == Field.SELECT_TYPE:
-                return validator.validate_select(value, field.options)
+                return validator.validate_select(field, value)
             else:
                 raise ValueError(f'Unable to find a validator for field: {field.name}')
         
