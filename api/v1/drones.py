@@ -29,7 +29,7 @@ A Drone has:
 - state (IDLE, LOADING, LOADED, DELIVERING, DELIVERED, RETURNING)
 '''
 model = Model(table='drones')
-model.add_field(Field(name='id', dtype=Field.INTEGER_TYPE, pk=True))
+model.add_field(Field(name='drone_id', dtype=Field.INTEGER_TYPE, pk=True))
 model.add_field(Field(name='serial_number', dtype=Field.VARCHAR_TYPE, 
     max=100, unique=True))
 model.add_field(Field(name='model', dtype=Field.SELECT_TYPE, 

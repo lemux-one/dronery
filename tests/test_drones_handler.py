@@ -27,6 +27,6 @@ class TestDronesHandler(unittest.TestCase):
             drone = drones_list[0]
             self.assertTrue('serial_number' in drone.keys())
             self.assertTrue('model' in drone.keys())
-            self.assertTrue('weight' in drone.keys())
+            self.assertTrue('weight_limit' in drone.keys())
             self.assertTrue('battery_capacity' in drone.keys())
             self.assertTrue('state' in drone.keys())
