@@ -29,3 +29,16 @@ class TestValidators(unittest.TestCase):
         self.assertTrue(validator.validate_select(field, 'two')[0])
         self.assertFalse(validator.validate_select(field, 'five')[0])
         self.assertFalse(validator.validate_select(field, 5)[0])
+    
+    def test_regex_validation(self):
+        field = Field('test', Field.VARCHAR_TYPE, regex=r'^[a-z]+$')
+        correct = 'sdfasdkfjhaksd'
+        self.assertTrue(validator.validate_varchar(field, correct)[0])
+        wrong = ''
+        self.assertFalse(validator.validate_varchar(field, wrong)[0])
+        wrong = '465'
+        self.assertFalse(validator.validate_varchar(field, wrong)[0])
+        wrong = 'asAwer'
+        self.assertFalse(validator.validate_varchar(field, wrong)[0])
+        wrong = '_'
+        self.assertFalse(validator.validate_varchar(field, wrong)[0])
