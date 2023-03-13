@@ -23,7 +23,7 @@ class Service:
     
     
     def get_all_records(self) -> list:
-        self.__check_model()
+        self.check_model()
         fields = ', '.join([f.name for f in self.model.fields])
         sql = f'select {fields} from {self.model.table};'
         ok, rows = self.dbhelper.query(sql)
@@ -33,7 +33,7 @@ class Service:
         
     
     def get_record_by_id(self, pk: int) -> dict:
-        self.__check_model()
+        self.check_model()
         fields = ', '.join([f.name for f in self.model.fields])
         sql = f'''select {fields} 
             from {self.model.table} 
@@ -47,7 +47,7 @@ class Service:
 
 
     def insert_record(self, record_data: dict) -> int:
-        self.__check_model()
+        self.check_model()
         try:
             self.model.from_dict(record_data)
             col_list = []
@@ -55,7 +55,7 @@ class Service:
             params = []
             for field in self.model.fields:
                 if not field.pk:
-                    self.__check_constraints(field)
+                    self.check_constraints(field)
                     col_list.append(field.name)
                     val_list.append('?')
                     params.append(self.model.obj[field.name])
@@ -74,14 +74,14 @@ class Service:
 
 
     def update_record_by_id(self, pk: int, record_data: dict) -> None:
-        self.__check_model()
+        self.check_model()
         try:
             self.model.from_dict(record_data)
             setlist = []
             params = []
             for field in self.model.fields:
                 if not field.pk:
-                    self.__check_constraints(field, exclude_pk=pk)
+                    self.check_constraints(field, exclude_pk=pk)
                     setlist.append(f'{field.name} = ?')
                     params.append(self.model.obj[field.name])
             sql = f'''update {self.model.table} 
@@ -111,7 +111,7 @@ class Service:
             abort(HTTPStatus.NOT_FOUND, NO_RECORD)
 
 
-    def __check_model(self):
+    def check_model(self):
         if not self.model.fields:
             log('The given model has no fields', 'ERROR')
             abort(HTTPStatus.INTERNAL_SERVER_ERROR)
@@ -120,7 +120,7 @@ class Service:
             abort(HTTPStatus.INTERNAL_SERVER_ERROR)
     
 
-    def __check_constraints(self, field: Field, exclude_pk: int = None):
+    def check_constraints(self, field: Field, exclude_pk: int = None):
         if field.unique:
             self.__check_unique(field, exclude_pk)
         if field.fk:
