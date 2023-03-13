@@ -4,8 +4,10 @@ from api.api_bottle import ApiBottle
 import api.v1
 from db.sqlite import helper
 from db.setup import run_migrations
+import audit_task
 
 run_migrations(helper)
+audit_task.run()
 root = application = ApiBottle()
 
 @root.hook('after_request')
