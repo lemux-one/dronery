@@ -2,7 +2,8 @@ import json
 from http import HTTPStatus
 from bottle import (
     response,
-    request
+    request,
+    DEBUG
 )
 from datetime import datetime
 
@@ -19,8 +20,9 @@ class ApiError(Exception):
 
 
 def log(message: str, level: str = 'INFO'):
-    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print(f'[{level}] | {now} | {message}')
+    if level in ('ERROR', 'AUDIT') or DEBUG:
+        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        print(f'[{level}] | {now} | {message}')
 
 
 def json_response(
