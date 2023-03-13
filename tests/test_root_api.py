@@ -10,16 +10,23 @@ class TestRootApi(unittest.TestCase):
     
 
     def test_index_endpoint(self):
-        resp = req.get(self.base_url + '/')
-        self.assertEqual(resp.status_code, HTTPStatus.OK)
-        self.assertNotEqual(resp.headers['Content-Type'], 'application/json')
+        try:
+            resp = req.get(self.base_url + '/')
+        except Exception:
+            self.fail('API server not running')
+        else:
+            self.assertEqual(resp.status_code, HTTPStatus.OK)
+            self.assertNotEqual(resp.headers['Content-Type'], 'application/json')
     
 
     def test_unknow_endpoint(self):
-        resp = req.get(self.base_url + '/unknown/endpoint')
-        self.assertNotEqual(resp.status_code, HTTPStatus.OK)
-        self.assertEqual(resp.headers['Content-Type'], 'application/json')
-        
-        payload = json.loads(resp.content)
-        self.assertTrue('status' in payload.keys())
-        self.assertTrue('reason' in payload.keys())
+        try:
+            resp = req.get(self.base_url + '/unknown/endpoint')
+        except Exception:
+            self.fail('API server not running')
+        else:
+            self.assertNotEqual(resp.status_code, HTTPStatus.OK)
+            self.assertEqual(resp.headers['Content-Type'], 'application/json')
+            payload = json.loads(resp.content)
+            self.assertTrue('status' in payload.keys())
+            self.assertTrue('reason' in payload.keys())
