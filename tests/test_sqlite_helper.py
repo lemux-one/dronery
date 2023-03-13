@@ -4,7 +4,7 @@ from db.sqlite import SqliteHelper
 class TestSqliteHelper(unittest.TestCase):
 
     def setUp(self):
-        self.helper = SqliteHelper()
+        self.helper = SqliteHelper(in_memory=True)
     
     def tearDown(self):
         self.helper.close()
@@ -32,7 +32,7 @@ class TestSqliteHelper(unittest.TestCase):
         self.assertTrue('row_count' in info.keys())
         after = self.__count_tables()
         self.assertEqual(after, before + 1)
-    
+
 
     def __count_tables(self):
         _, rows = self.helper.query('select count(*) as count from sqlite_master where type="table";')
