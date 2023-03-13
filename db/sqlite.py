@@ -1,6 +1,9 @@
 import sqlite3
 from db.db_helper import DbHelper
-from api.utils import log
+from api.utils import (
+    log,
+    truncate_str
+)
 
 class SqliteHelper(DbHelper):
 
@@ -22,6 +25,7 @@ class SqliteHelper(DbHelper):
             self.cur = self.conn.cursor()
             self.cur.execute(select_query, params)
             rows = self.__zip_records()
+            log(f'Sucessful query: {truncate_str(select_query)}')
         except Exception as ex:
             ok = False
             log(str(ex), 'ERROR')
@@ -41,6 +45,7 @@ class SqliteHelper(DbHelper):
             self.conn.commit()
             cur_info['last_id'] = self.cur.lastrowid
             cur_info['row_count'] = self.cur.rowcount
+            log(f'Successful exec: {truncate_str(sql_cmd)}')
         except Exception as ex:
             ok = False
             self.conn.rollback()
