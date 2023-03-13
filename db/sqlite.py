@@ -7,11 +7,12 @@ from api.utils import (
 
 class SqliteHelper(DbHelper):
 
-    def __init__(self):
+    def __init__(self, in_memory: bool = False):
         '''
         Creates an in-memory database
         '''
-        self.conn = sqlite3.connect('dronery.db')
+        dbname = 'dronery.db' if not in_memory else ':memory:'
+        self.conn = sqlite3.connect(dbname)
     
 
     def query(self, select_query: str, params: list = []) -> (bool, list):
