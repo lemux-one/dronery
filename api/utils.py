@@ -75,3 +75,12 @@ def extract_payload() -> dict:
     except JSONDecodeError as ex:
         log(str(ex), 'ERROR')
         abort(HTTPStatus.BAD_REQUEST, 'Invalid json')
+
+
+def truncate_str(long_str: str, max_len: int = 100, suffix: str = '...') -> str:
+    trimmed = long_str.split('\n')[0]
+    if len(trimmed) + 1 < len(long_str):
+        trimmed += suffix
+    elif len(trimmed) > max_len:
+        trimmed = trimmed[:max_len] + suffix
+    return trimmed

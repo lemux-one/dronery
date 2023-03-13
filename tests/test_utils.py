@@ -4,7 +4,8 @@ from http import HTTPStatus
 from api.utils import (
     json_response,
     error_response,
-    data_response
+    data_response,
+    truncate_str
 )
 
 class TestUtils(unittest.TestCase):
@@ -37,3 +38,14 @@ class TestUtils(unittest.TestCase):
         json_dict = json.loads(resp)
         self.assertEqual(json_dict['reason'], reason)
         self.assertEqual(json_dict['status'], 500)
+    
+
+    def test_truncate_str(self):
+        long_str = 'line1\nline2\nline3\n'
+        truncated = truncate_str(long_str)
+        self.assertEqual(truncated, 'line1...')
+        long_str = 'one long line'
+        truncated = truncate_str(long_str, max_len=5)
+        self.assertEqual(truncated, 'one l...')
+        truncated = truncate_str(long_str, max_len=5, suffix='*')
+        self.assertEqual(truncated, 'one l*')
