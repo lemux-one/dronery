@@ -26,7 +26,17 @@ CREATE TABLE "medications" (
     "weight" INTEGER,
     "code" VARCHAR(100) UNIQUE,
     "image_id" INTEGER,
-    FOREIGN KEY ("image_id")
-       REFERENCES "images" ("image_id")
+    FOREIGN KEY ("image_id") REFERENCES "images" ("image_id")
 );
 INSERT INTO "medications" VALUES (NULL, "dalsy", 50, "DALSY_1520", 1);
+
+
+DROP TABLE IF EXISTS "loads";
+CREATE TABLE "loads" (
+    "load_id" INTEGER PRIMARY KEY,
+    "drone_id" INTEGER,
+    "medication_id" INTEGER,
+    "quantity" INTEGER,
+    FOREIGN KEY ("drone_id") REFERENCES "drones" ("drone_id"),
+    FOREIGN KEY ("medication_id") REFERENCES "medications" ("medication_id")
+);
