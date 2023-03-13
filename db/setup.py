@@ -16,10 +16,12 @@ def run_migrations(dbhelper: DbHelper) -> None:
     statements = []
     with open('migrations.sql', mode='r', encoding='utf-8') as file:
         for line in file:
-            if line.endswith(';\n'):
+            if line.endswith(';\n') or line.endswith(';'):
+                if line.endswith('\n'):
+                    line = line[:-1]
                 statements.append(script + line)
                 script = ""
-            else:
+            elif line != '\n':
                 script += line
     ok = True
     for statement in statements:
