@@ -11,7 +11,7 @@ class SqliteHelper(DbHelper):
         '''
         Creates an in-memory database
         '''
-        self.conn = sqlite3.connect(':memory:')
+        self.conn = sqlite3.connect('dronery.db')
     
 
     def query(self, select_query: str, params: list = []) -> (bool, list):
