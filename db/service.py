@@ -13,6 +13,7 @@ from api.utils import (
     ApiError
 )
 
+NO_RECORD = 'Record does not exist'
 
 class Service:
     
@@ -41,7 +42,7 @@ class Service:
         if not ok:
             abort(HTTPStatus.INTERNAL_SERVER_ERROR)
         if not rows:
-            abort(HTTPStatus.NOT_FOUND, f'No element found with {self.model.pk.name} {pk}')
+            abort(HTTPStatus.NOT_FOUND, NO_RECORD)
         return rows[0]
 
 
@@ -91,7 +92,7 @@ class Service:
             if not ok:
                 raise DbError(f'Update in "{self.model.table}" failed')
             if info['row_count'] < 1:
-                abort(HTTPStatus.NOT_FOUND)
+                abort(HTTPStatus.NOT_FOUND, NO_RECORD)
         except ValueError as ex:
             log(str(ex), 'ERROR')
             abort(HTTPStatus.BAD_REQUEST, str(ex))
@@ -107,7 +108,7 @@ class Service:
             log(f'Delete from {self.model.table} failed', 'ERROR')
             abort(HTTPStatus.INTERNAL_SERVER_ERROR)
         if info['row_count'] < 1:
-            abort(HTTPStatus.NOT_FOUND, 'Record does not exist')
+            abort(HTTPStatus.NOT_FOUND, NO_RECORD)
 
 
     def __check_model(self):
