@@ -54,7 +54,7 @@ class Service:
             params = []
             for field in self.model.fields:
                 if not field.pk:
-                    self.__check_integrity(field)
+                    self.__check_constraints(field)
                     col_list.append(field.name)
                     val_list.append('?')
                     params.append(self.model.obj[field.name])
@@ -80,7 +80,7 @@ class Service:
             params = []
             for field in self.model.fields:
                 if not field.pk:
-                    self.__check_integrity(field)
+                    self.__check_constraints(field, exclude_pk=pk)
                     setlist.append(f'{field.name} = ?')
                     params.append(self.model.obj[field.name])
             sql = f'''update {self.model.table} 
@@ -107,7 +107,7 @@ class Service:
             log(f'Delete from {self.model.table} failed', 'ERROR')
             abort(HTTPStatus.INTERNAL_SERVER_ERROR)
         if info['row_count'] < 1:
-            abort(HTTPStatus.NOT_FOUND)
+            abort(HTTPStatus.NOT_FOUND, 'Record does not exist')
 
 
     def __check_model(self):
@@ -119,13 +119,34 @@ class Service:
             abort(HTTPStatus.INTERNAL_SERVER_ERROR)
     
 
-    def __check_integrity(self, field: Field):
+    def __check_constraints(self, field: Field, exclude_pk: int = None):
         if field.unique:
-            sql = f'''select count(*) as count from {self.model.table} 
-                where {field.name} = ?;'''
-            ok, rows = self.dbhelper.query(sql, (self.model.obj[field.name],))
-            if not ok:
-                raise ApiError()
-            if rows and rows[0]['count'] >= 1:
-                raise ApiError(HTTPStatus.BAD_REQUEST, f'Given value for "{field.name}" already exists')
+            self.__check_unique(field, exclude_pk)
+        if field.fk:
+            self.__check_fk(field)
+    
+
+    def __check_unique(self, field: Field, exclude_pk: int):
+        params = []
+        sql = f'''select count(*) as count from {self.model.table} 
+            where {field.name} = ?'''
+        params.append(self.model.obj[field.name])
+        if exclude_pk is not None:
+            sql += f' and {self.model.pk.name} <> ?'
+            params.append(exclude_pk)
+        ok, rows = self.dbhelper.query(sql, params)
+        if not ok:
+            raise ApiError()
+        if rows and rows[0]['count'] >= 1:
+            raise ApiError(HTTPStatus.BAD_REQUEST, f'Given value for "{field.name}" already exists')
             
+    
+    def __check_fk(self, field: Field):
+        if not field.ftable or not self.dbhelper.exists_table(field.ftable):
+            raise ApiError(message=f'Invalid ftable={str(field.ftable)} for FK "{field.name}"')
+        sql = f'select count(*) as count from {field.ftable} where {field.name} = ?'
+        ok, rows = self.dbhelper.query(sql, [self.model.obj[field.name]])
+        if not ok:
+            raise ApiError()
+        if not rows or rows[0]['count'] != 1:
+            raise ApiError(message=f'Invalid FK "{field.name}"')
