@@ -84,7 +84,10 @@ def handle_create():
     Creates a new record with the given data
     '''
     payload = extract_payload()
-    model.from_dict(payload)
+    try:
+        model.from_dict(payload)
+    except ValueError as ex:
+        abort(HTTPStatus.BAD_REQUEST, str(ex))
     for field in model.fields:
         service.check_constraints(field)
     
@@ -112,7 +115,10 @@ def handle_update(id):
     Replaces data for the record matching given ID.
     '''
     payload = extract_payload()
-    model.from_dict(payload)
+    try:
+        model.from_dict(payload)
+    except ValueError as ex:
+        abort(HTTPStatus.BAD_REQUEST, str(ex))
     for field in model.fields:
         service.check_constraints(field)
     
