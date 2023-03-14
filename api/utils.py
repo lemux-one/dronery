@@ -76,7 +76,11 @@ def extract_payload() -> dict:
     if request.content_type != 'application/json':
         abort(HTTPStatus.BAD_REQUEST, 'Payload must be json')
     try:
-        return request.json
+        data = request.json
+        if type(data) != dict:
+            abort(HTTPStatus.BAD_REQUEST, 'Json payload must be an object')
+        else:
+            return data
     except json.JSONDecodeError as ex:
         log(str(ex), 'ERROR')
         abort(HTTPStatus.BAD_REQUEST, 'Invalid json')
