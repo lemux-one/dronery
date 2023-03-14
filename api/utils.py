@@ -75,7 +75,7 @@ def extract_payload() -> dict:
         abort(HTTPStatus.BAD_REQUEST, 'Only json-formatted payload accepted')
     try:
         return request.json
-    except JSONDecodeError as ex:
+    except json.JSONDecodeError as ex:
         log(str(ex), 'ERROR')
         abort(HTTPStatus.BAD_REQUEST, 'Invalid json')
 
