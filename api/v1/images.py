@@ -3,7 +3,8 @@ from json import JSONDecodeError
 from bottle import (
     abort,
     request,
-    response
+    response,
+    auth_basic
 )
 from api.api_bottle import ApiBottle
 from api.utils import (
@@ -15,6 +16,7 @@ from api.utils import (
 from db.sqlite import helper
 from db.model import Model, Field
 from db.service import Service
+from auth.basic import check_credentials
 
 
 #
@@ -47,6 +49,7 @@ def handle_list():
 
 
 @handler.post('/')
+@auth_basic(check_credentials)
 def handle_create():
     '''
     Creates a new record with the given data
@@ -66,6 +69,7 @@ def handle_details(id):
 
 
 @handler.put('/<id:int>')
+@auth_basic(check_credentials)
 def handle_update(id):
     '''
     Replaces data for the record matching given ID.
@@ -76,6 +80,7 @@ def handle_update(id):
 
 
 @handler.delete('/<id:int>')
+@auth_basic(check_credentials)
 def handle_delete(id):
     '''
     Deletes record matching given ID.
