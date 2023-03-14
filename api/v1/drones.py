@@ -1,5 +1,4 @@
 from http import HTTPStatus
-from json import JSONDecodeError
 from bottle import (
     abort,
     request,
