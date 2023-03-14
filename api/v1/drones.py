@@ -17,6 +17,7 @@ from db.model import Model, Field
 from db.service import Service
 from auth.basic import check_credentials
 
+FLEET_CAPACITY = 10
 
 #
 # Data model
@@ -35,7 +36,7 @@ model.add_field(Field(name='serial_number', dtype=Field.VARCHAR_TYPE,
     max=100, unique=True))
 model.add_field(Field(name='model', dtype=Field.SELECT_TYPE, 
     options=['Lightweight', 'Middleweight', 'Cruiserweight', 'Heavyweight']))
-model.add_field(Field(name='weight_limit', dtype=Field.INTEGER_TYPE, 
+model.add_field(Field(name='weight_limit', dtype=Field.DOUBLE_TYPE, 
     min=0, max=500))
 model.add_field(Field(name='battery_capacity', dtype=Field.INTEGER_TYPE, 
     min=0, max=100))
@@ -65,6 +66,9 @@ def handle_create():
     '''
     Creates a new record with the given data
     '''
+    drones = service.get_all_records()
+    if len(drones) >= FLEET_CAPACITY:
+        abort(HTTPStatus.CONFLICT, 'Drones fleet at maximum capacity')
     payload = extract_payload()
     rowid = service.insert_record(payload)
     response.headers['Location'] = request.fullpath + str(rowid)
