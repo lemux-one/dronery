@@ -13,26 +13,10 @@ from api.utils import (
     log,
     extract_payload
 )
-from db.sqlite import helper
-from db.model import Model, Field
-from db.service import Service
+from api.services import drones_service as service
 from auth.basic import check_credentials
 
-
-#
-# Data model
-#
-'''
-An image has:
-- base64 (Base64 encoded representation of the binary file);
-- mime (MIME string to know what type of image it is: image/jpeg, image/png, etc)
-'''
-model = Model(table='images')
-model.add_field(Field(name='image_id', dtype=Field.INTEGER_TYPE, pk=True))
-model.add_field(Field(name='mime', dtype=Field.VARCHAR_TYPE, max=50))
-model.add_field(Field(name='base64', dtype=Field.VARCHAR_TYPE))
-
-service = Service(dbhelper=helper, model=model)
+model = service.model
 
 
 #

@@ -3,7 +3,8 @@ from bottle import (
     abort,
     request,
     response,
-    auth_basic
+    auth_basic,
+    MultiDict
 )
 from api.api_bottle import ApiBottle
 from api.utils import (
@@ -12,39 +13,13 @@ from api.utils import (
     log,
     extract_payload
 )
-from db.sqlite import helper
-from db.model import Model, Field
-from db.service import Service
+from api.services import drones_service as service
 from auth.basic import check_credentials
+from api.services import loads_service
+from api.services import medications_service
 
 FLEET_CAPACITY = 10
-
-#
-# Data model
-#
-'''
-A Drone has:
-- serial number (100 characters max);
-- model (Lightweight, Middleweight, Cruiserweight, Heavyweight);
-- weight limit (500gr max);
-- battery capacity (percentage);
-- state (IDLE, LOADING, LOADED, DELIVERING, DELIVERED, RETURNING)
-'''
-model = Model(table='drones')
-model.add_field(Field(name='drone_id', dtype=Field.INTEGER_TYPE, pk=True))
-model.add_field(Field(name='serial_number', dtype=Field.VARCHAR_TYPE, 
-    max=100, unique=True))
-model.add_field(Field(name='model', dtype=Field.SELECT_TYPE, 
-    options=['Lightweight', 'Middleweight', 'Cruiserweight', 'Heavyweight']))
-model.add_field(Field(name='weight_limit', dtype=Field.DOUBLE_TYPE, 
-    min=0, max=500))
-model.add_field(Field(name='battery_capacity', dtype=Field.INTEGER_TYPE, 
-    min=0, max=100))
-model.add_field(Field(name='state', dtype=Field.SELECT_TYPE, 
-    options=['IDLE', 'LOADING', 'LOADED', 'DELIVERING', 'DELIVERED', 'RETURNING']))
-
-service = Service(dbhelper=helper, model=model)
-
+model = service.model
 
 #
 # Handle routes
