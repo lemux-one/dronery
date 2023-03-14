@@ -77,3 +77,19 @@ def handle_delete(id):
     '''
     service.delete_by_id(id)
     return data_response({})
+
+
+@handler.get('/<id:int>/medications')
+def handle_loaded_medications(id):
+    '''
+    Retrieves the full list of medications loaded to the given drone id
+    '''
+    filters = MultiDict()
+    filters.append('drone_id', f'{id}')
+    loads = loads_service.get_all_records(filters)
+    meds_list = []
+    for load in loads:
+        med = medications_service.get_record_by_id(load['medication_id'])
+        med['load'] = load
+        meds_list.append(med)
+    return data_response(meds_list)
