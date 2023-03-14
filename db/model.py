@@ -5,6 +5,7 @@ class Field:
     INTEGER_TYPE = 'integer'
     VARCHAR_TYPE = 'varchar'
     SELECT_TYPE = 'select'
+    DOUBLE_TYPE = 'double'
 
     def __init__(self, name: str, dtype: str, min: float = None, max: float = None, 
             options: list = None, unique: bool = False, null: bool = False, regex: str = None,
@@ -64,6 +65,8 @@ class Model:
             dtype = field.dtype.lower()
             if dtype == Field.INTEGER_TYPE:
                 return validator.validate_int(field, value)
+            if dtype == Field.DOUBLE_TYPE:
+                return validator.validate_double(field, value)
             elif dtype == Field.VARCHAR_TYPE:
                 return validator.validate_varchar(field, value)
             elif dtype == Field.SELECT_TYPE:
