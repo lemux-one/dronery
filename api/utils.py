@@ -71,8 +71,10 @@ def error_response(
 
 
 def extract_payload() -> dict:
+    if request.content_length == 0:
+        abort(HTTPStatus.BAD_REQUEST, 'Payload must not be empty')
     if request.content_type != 'application/json':
-        abort(HTTPStatus.BAD_REQUEST, 'Only json-formatted payload accepted')
+        abort(HTTPStatus.BAD_REQUEST, 'Payload must be json')
     try:
         return request.json
     except json.JSONDecodeError as ex:
