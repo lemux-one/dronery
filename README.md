@@ -9,6 +9,7 @@ Python based REST API to handle a drones delivery service using the micro framew
 - Portability (use a local database)
 - Bare bones API features to keep the server implementation general enough but, it imposes more processing on the client side
 - Image files are not support in binary format, just Base64 encodings with an associated MIME type for the client to know how to handle it
+- Protect sensitive API endpoints with authentication/authorization
 
 ## General features
 - Drones management through '/api/v#/drones' endpoint
@@ -17,6 +18,7 @@ Python based REST API to handle a drones delivery service using the micro framew
 - Loads management through '/api/v#/loads' endpoint
 - CORS enabled for browser based clients
 - Cache control headers support (just a general no-store policy at the moment)
+- Access control over management operations (only for drones management at the moment)
 
 ## Run (hosted)
 - Install Python 3.9.7+ (it may work with any Python 3 version but it is only tested against v3.9.7)
