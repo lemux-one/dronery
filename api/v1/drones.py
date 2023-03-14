@@ -54,7 +54,8 @@ def handle_list():
     '''
     Lists existing records
     '''
-    return data_response(service.get_all_records())
+    filters_query = request.query.decode()
+    return data_response(service.get_all_records(filters_query))
 
 
 @handler.post('/')
