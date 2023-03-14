@@ -1,3 +1,6 @@
+# SonarQube scanner files
+.scannerwork
+
 # Local database files
 *.db
 
