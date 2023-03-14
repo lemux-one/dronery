@@ -19,6 +19,13 @@ def enable_cors():
     response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
     response.headers['Access-Control-Allow-Headers'] = 'Authorization, Origin, Accept, Content-Type, X-Requested-With'
 
+@root.hook('after_request')
+def set_cache_control_policy():
+    '''
+    Set a default cache control policy
+    '''
+    response.headers['Cache-Control'] = 'no-store'
+
 @root.route('/', method = 'OPTIONS')
 @root.route('/<path:path>', method = 'OPTIONS')
 def options_handler(path = None):
