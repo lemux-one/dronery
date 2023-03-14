@@ -1,5 +1,8 @@
 from http import HTTPStatus
-from bottle import abort
+from bottle import (
+    abort,
+    MultiDict
+)
 from db.db_helper import (
     DbHelper,
     DbError
@@ -22,11 +25,22 @@ class Service:
         self.model = model
     
     
-    def get_all_records(self) -> list:
+    def get_all_records(self, filters: MultiDict = None) -> list:
         self.check_model()
         fields = ', '.join([f.name for f in self.model.fields])
-        sql = f'select {fields} from {self.model.table};'
-        ok, rows = self.dbhelper.query(sql)
+        sql = f'select {fields} from {self.model.table}'
+        params = []
+        if filters:
+            sql += ' where 1=1'
+            field_names = [field.name for field in self.model.fields]
+            for filter in filters:
+                if filter in field_names:
+                    requirements = filters.getall(filter)
+                    for req in requirements:
+                        comparator, criteria = self.__extract_from_requirement(req)
+                        sql += f' and {filter} {comparator} ?'
+                        params.append(criteria)
+        ok, rows = self.dbhelper.query(sql, params)
         if not ok:
             abort(HTTPStatus.INTERNAL_SERVER_ERROR)
         return rows
@@ -151,3 +165,14 @@ class Service:
             raise ApiError()
         if not rows or rows[0]['count'] != 1:
             raise ApiError(message=f'Invalid FK "{field.name}"')
+    
+
+    def __extract_from_requirement(self, requirement: str) -> (str, str):
+        criteria = requirement
+        comparator = '='
+        if str(requirement).startswith('['):
+            splitted = str(requirement)[1:].split(']')
+            if len(splitted) != 2:
+                abort()
+            comparator, criteria = splitted
+        return comparator, criteria
