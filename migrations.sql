@@ -15,7 +15,7 @@ CREATE TABLE "drones" (
     "state" VARCHAR(15)
 );
 INSERT INTO "drones" VALUES (NULL, "QWOIEJO1202115", "Lightweight", 250, 80, "IDLE");
-INSERT INTO "drones" VALUES (NULL, "ASFKJALSJOEWIO", "Lightweight", 250, 15, "LOADING");
+INSERT INTO "drones" VALUES (NULL, "ASFKJALSJOEWIO", "Lightweight", 250, 30, "LOADING");
 INSERT INTO "drones" VALUES (NULL, "SLDFLISDKFDSSD", "Middleweight", 325, 100, "LOADING");
 INSERT INTO "drones" VALUES (NULL, "FDFIEFE5664846", "Middleweight", 275, 76, "IDLE");
 INSERT INTO "drones" VALUES (NULL, "DKFJDLKFJ79899", "Cruiserweight", 400, 10, "RETURNING");
