@@ -37,6 +37,10 @@ class Model:
             self.pk = field
     
     def from_dict(self, source: dict, include_pk: bool = False) -> None:
+        if not source:
+            field_names = [field.name for field in self.fields if not field.pk]
+            field_list = ', '.join(field_names)
+            raise ValueError(f'Empty object. Required fields: {field_list}')
         skeys = source.keys()
         for field in self.fields:
             if not field.pk or include_pk:
