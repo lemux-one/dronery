@@ -81,4 +81,4 @@ class SqliteHelper(DbHelper):
         return rows
 
 
-helper = SqliteHelper()
+helper = None
