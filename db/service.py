@@ -31,22 +31,7 @@ class Service:
         self.check_model()
         fields = ', '.join([f.name for f in self.model.fields])
         sql = f'select {fields} from {self.model.table}'
-        params = []
-        sql_filter = ''
-        if filters:
-            field_names = [field.name for field in self.model.fields]
-            for filter in filters:
-                bool_operator, filter_by = self.__extract_from_target(filter)
-                if filter_by in field_names:
-                    requirements = filters.getall(filter)
-                    for req in requirements:
-                        comparator, criteria = self.__extract_from_requirement(req)
-                        placeholders = []
-                        for val in criteria:
-                            params.append(val)
-                            placeholders.append('?')
-                        placeholders = ','.join(placeholders)
-                        sql_filter += f' {bool_operator} {filter_by} {comparator} ({placeholders})'
+        sql_filter, params = self.__prepare_sql_from_filters(filters)
         if sql_filter:
             sql += f' where 1=1 {sql_filter}'
         ok, rows = self.dbhelper.query(sql, params)
@@ -175,6 +160,24 @@ class Service:
         if not rows or rows[0]['count'] != 1:
             raise ApiError(message=f'Invalid FK "{field.name}"')
     
+    def __prepare_sql_from_filters(self, filters: MultiDict) -> (str, list):
+        params = []
+        sql_filter = ''
+        if filters:
+            field_names = [field.name for field in self.model.fields]
+            for filter in filters:
+                bool_operator, filter_by = self.__extract_from_target(filter)
+                if filter_by in field_names:
+                    requirements = filters.getall(filter)
+                    for req in requirements:
+                        comparator, criteria = self.__extract_from_requirement(req)
+                        placeholders = []
+                        for val in criteria:
+                            params.append(val)
+                            placeholders.append('?')
+                        placeholders = ','.join(placeholders)
+                        sql_filter += f' {bool_operator} {filter_by} {comparator} ({placeholders})'
+        return sql_filter, params
 
     def __extract_from_requirement(self, requirement: str) -> (str, [str]):
         criteria = requirement
