@@ -75,7 +75,7 @@ def handle_delete(id):
     '''
     Deletes record matching given ID.
     '''
-    service.delete_by_id(id)
+    service.delete_by_id(id, foreign_tables=[loads_service.model.table])
     return data_response({})
 
 

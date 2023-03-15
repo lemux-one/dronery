@@ -108,7 +108,12 @@ class Service:
             abort(ex.status_code, ex.message)
     
 
-    def delete_by_id(self, pk: int) -> None:
+    def delete_by_id(self, pk: int, foreign_tables=[]) -> None:
+        for table in foreign_tables:
+            sql = f'''select count(*) as count from {table} where {self.model.pk.name} = ?;'''
+            ok, rows = self.dbhelper.query(sql, (pk,))
+            if ok and rows[0]['count'] > 0:
+                abort(HTTPStatus.CONFLICT, 'Foreign key restriction prevents deletion')
         sql = f'''delete from {self.model.table}
             where {self.model.pk.name} = ?;'''
         ok, info = self.dbhelper.exec(sql, (pk,))

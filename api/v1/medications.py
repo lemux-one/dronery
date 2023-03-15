@@ -15,6 +15,7 @@ from api.utils import (
 )
 from api.services import medications_service as service
 from auth.basic import check_credentials
+from db.models.load import model as load_model
 
 model = service.model
 
@@ -69,5 +70,5 @@ def handle_delete(id):
     '''
     Deletes record matching given ID.
     '''
-    service.delete_by_id(id)
+    service.delete_by_id(id, foreign_tables=[load_model.table])
     return data_response({})
