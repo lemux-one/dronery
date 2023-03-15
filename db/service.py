@@ -32,8 +32,8 @@ class Service:
         fields = ', '.join([f.name for f in self.model.fields])
         sql = f'select {fields} from {self.model.table}'
         params = []
+        sql_filter = ''
         if filters:
-            sql_filter = ''
             field_names = [field.name for field in self.model.fields]
             for filter in filters:
                 bool_operator, filter_by = self.__extract_from_target(filter)
