@@ -2,11 +2,10 @@ from threading import Timer
 from api.utils import log
 from db.sqlite import SqliteHelper
 import bottle
-
-LOW_LEVEL = 25
+from settings import Config
 
 def run():
-    if not bottle.DEBUG:
+    if not bottle.DEBUG and not Config.get('TESTING'):
         dbhelper = SqliteHelper()
         ok, drones = dbhelper.query('select * from drones;')
         if not ok:
@@ -14,13 +13,13 @@ def run():
         else:
             low_batt = 0
             for drone in drones:
-                if drone['battery_capacity'] < LOW_LEVEL:
+                if drone['battery_capacity'] < conf.LOW_LEVEL:
                     low_batt += 1
             log(f'Audit report: Low battery for {low_batt}/{len(drones)} drones', 'AUDIT')
         dbhelper.close()
         Timer(5, run).start()
     else:
-        log('Audit logs are disabled when DEBUG mode is ON')
+        log('Audit logs are disabled when DEBUG mode is ON or using in-memory database')
 
 
 if __name__ == "__main__":

@@ -1,10 +1,13 @@
 import unittest
 from db.sqlite import SqliteHelper
+from settings import Config
 
 class TestSqliteHelper(unittest.TestCase):
 
     def setUp(self):
-        self.helper = SqliteHelper(in_memory=True)
+        Config.set('TESTING', True)
+        Config.set('DB_NAME', ':memory:')
+        self.helper = SqliteHelper()
     
     def tearDown(self):
         self.helper.close()

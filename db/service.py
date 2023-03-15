@@ -160,6 +160,7 @@ class Service:
         if not rows or rows[0]['count'] != 1:
             raise ApiError(message=f'Invalid FK "{field.name}"')
     
+    
     def __prepare_sql_from_filters(self, filters: MultiDict) -> (str, list):
         params = []
         sql_filter = ''
@@ -178,6 +179,7 @@ class Service:
                         placeholders = ','.join(placeholders)
                         sql_filter += f' {bool_operator} {filter_by} {comparator} ({placeholders})'
         return sql_filter, params
+
 
     def __extract_from_requirement(self, requirement: str) -> (str, [str]):
         criteria = requirement

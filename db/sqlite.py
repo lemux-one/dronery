@@ -4,15 +4,23 @@ from api.utils import (
     log,
     truncate_str
 )
+from settings import Config
 
 class SqliteHelper(DbHelper):
 
-    def __init__(self, in_memory: bool = False):
+    __self = None
+
+    @staticmethod
+    def get_instance() -> DbHelper:
+        if SqliteHelper.__self is None:
+            SqliteHelper.__self = SqliteHelper()
+        return SqliteHelper.__self
+
+    def __init__(self):
         '''
         Creates an in-memory database
         '''
-        dbname = 'dronery.db' if not in_memory else ':memory:'
-        self.conn = sqlite3.connect(dbname)
+        self.conn = sqlite3.connect(Config.get('DB_NAME'))
     
 
     def query(self, select_query: str, params: list = []) -> (bool, list):
@@ -79,6 +87,3 @@ class SqliteHelper(DbHelper):
         for record in records:
             rows.append(dict(zip(headers, record)))
         return rows
-
-
-helper = None

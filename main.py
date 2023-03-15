@@ -2,12 +2,11 @@ from http import HTTPStatus
 from bottle import response
 from api.api_bottle import ApiBottle
 import api.v1
-from db import sqlite
+from db.sqlite import SqliteHelper as helper
 from db.setup import run_migrations
 import audit_task
 
-sqlite.helper = sqlite.SqliteHelper()
-run_migrations(sqlite.helper)
+run_migrations(helper.get_instance())
 audit_task.run()
 root = application = ApiBottle()
 

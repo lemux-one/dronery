@@ -1,4 +1,4 @@
-from db.sqlite import helper
+from db.sqlite import SqliteHelper
 from db.service import Service
 
 from db.models import (
@@ -8,6 +8,7 @@ from db.models import (
     load
 )
 
+helper = SqliteHelper.get_instance()
 drones_service = Service(dbhelper=helper, model=drone.model)
 images_service = Service(dbhelper=helper, model=image.model)
 medications_service = Service(dbhelper=helper, model=medication.model)

@@ -3,6 +3,7 @@ from http import HTTPStatus
 import json
 from boddle import boddle
 import bottle
+from settings import Config
 
 class TestRootApi(unittest.TestCase):
     
@@ -10,9 +11,8 @@ class TestRootApi(unittest.TestCase):
 
     def setUp(self):
         if self.app is None:
-            bottle.DEBUG = True
-            from db import sqlite
-            sqlite.helper = sqlite.SqliteHelper(in_memory=True)
+            Config.set('TESTING', True)
+            Config.set('DB_NAME', ':memory:')
             import main
             self.app = main
 
