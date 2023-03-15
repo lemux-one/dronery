@@ -13,7 +13,7 @@ from api.utils import (
     log,
     extract_payload
 )
-from api.services import drones_service as service
+from api.services import images_service as service
 from auth.basic import check_credentials
 
 model = service.model
