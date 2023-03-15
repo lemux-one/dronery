@@ -17,7 +17,7 @@ def run():
                     low_batt += 1
             log(f'Audit report: Low battery for {low_batt}/{len(drones)} drones', 'AUDIT')
         dbhelper.close()
-        Timer(5, run).start()
+        Timer(Config.get('AUDIT_DELTA_SECONDS'), run).start()
     else:
         log('Audit logs are disabled when DEBUG mode is ON or using in-memory database')
 

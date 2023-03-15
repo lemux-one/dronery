@@ -6,6 +6,7 @@ class Config:
 
     # constants
     'LOW_LEVEL': 25,
+    'AUDIT_DELTA_SECONDS': 20, # seconds between audits
   }
   __setters = ['DB_NAME', 'TESTING']
 
