@@ -2,11 +2,12 @@ from http import HTTPStatus
 from bottle import response
 from api.api_bottle import ApiBottle
 import api.v1
-from db.sqlite import helper
+from db import sqlite
 from db.setup import run_migrations
 import audit_task
 
-run_migrations(helper)
+sqlite.helper = sqlite.SqliteHelper()
+run_migrations(sqlite.helper)
 audit_task.run()
 root = application = ApiBottle()
 
@@ -31,15 +32,20 @@ def set_cache_control_policy():
 def options_handler(path = None):
     return
 
+# delegate to actual API endpoint handler
+root.mount('/api/v1', api.v1.handler)
+
 @root.get('/')
 def index():
     '''
     A default response for the root path.
     '''
-    return 'Welcome to Dronery REST API'
-
-# delegate to actual API endpoint handler
-root.mount('/api/v1', api.v1.handler)
+    return '''<h1>Welcome to Dronery REST API</h1>
+    <h2>Available endpoints:</h2>
+    <ul>
+        <li><a href="api/v1">API v1</a></li>
+    </ul>
+    '''
 
 if __name__ == '__main__':
     # if Gunicorn is installed (using Bottle's adapter)
