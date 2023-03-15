@@ -3,6 +3,7 @@
 
 # Local database files
 *.db
+*.db-journal
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
