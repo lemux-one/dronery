@@ -16,7 +16,9 @@ from api.utils import (
     ApiError
 )
 
-NO_RECORD = 'Record does not exist'
+NO_RECORD_MESSAGE = 'Record does not exist'
+ALLOWED_COMPARISON_OPERATORS = ('=', '<=', '>=', '<>', '!=', '<', '>', 'in', 'between',)
+ALLOWED_BOOLEAN_OPERATORS = ('and',)
 
 class Service:
     
@@ -31,15 +33,22 @@ class Service:
         sql = f'select {fields} from {self.model.table}'
         params = []
         if filters:
-            sql += ' where 1=1'
+            sql_filter = ''
             field_names = [field.name for field in self.model.fields]
             for filter in filters:
-                if filter in field_names:
+                bool_operator, filter_by = self.__extract_from_target(filter)
+                if filter_by in field_names:
                     requirements = filters.getall(filter)
                     for req in requirements:
                         comparator, criteria = self.__extract_from_requirement(req)
-                        sql += f' and {filter} {comparator} ?'
-                        params.append(criteria)
+                        placeholders = []
+                        for val in criteria:
+                            params.append(val)
+                            placeholders.append('?')
+                        placeholders = ','.join(placeholders)
+                        sql_filter += f' {bool_operator} {filter_by} {comparator} ({placeholders})'
+        if sql_filter:
+            sql += f' where 1=1 {sql_filter}'
         ok, rows = self.dbhelper.query(sql, params)
         if not ok:
             abort(HTTPStatus.INTERNAL_SERVER_ERROR)
@@ -56,7 +65,7 @@ class Service:
         if not ok:
             abort(HTTPStatus.INTERNAL_SERVER_ERROR)
         if not rows:
-            abort(HTTPStatus.NOT_FOUND, NO_RECORD)
+            abort(HTTPStatus.NOT_FOUND, NO_RECORD_MESSAGE)
         return rows[0]
 
 
@@ -106,7 +115,7 @@ class Service:
             if not ok:
                 raise DbError(f'Update in "{self.model.table}" failed')
             if info['row_count'] < 1:
-                abort(HTTPStatus.NOT_FOUND, NO_RECORD)
+                abort(HTTPStatus.NOT_FOUND, NO_RECORD_MESSAGE)
         except ValueError as ex:
             log(str(ex), 'ERROR')
             abort(HTTPStatus.BAD_REQUEST, str(ex))
@@ -122,7 +131,7 @@ class Service:
             log(f'Delete from {self.model.table} failed', 'ERROR')
             abort(HTTPStatus.INTERNAL_SERVER_ERROR)
         if info['row_count'] < 1:
-            abort(HTTPStatus.NOT_FOUND, NO_RECORD)
+            abort(HTTPStatus.NOT_FOUND, NO_RECORD_MESSAGE)
 
 
     def check_model(self):
@@ -167,12 +176,28 @@ class Service:
             raise ApiError(message=f'Invalid FK "{field.name}"')
     
 
-    def __extract_from_requirement(self, requirement: str) -> (str, str):
+    def __extract_from_requirement(self, requirement: str) -> (str, [str]):
         criteria = requirement
         comparator = '='
         if str(requirement).startswith('['):
             splitted = str(requirement)[1:].split(']')
             if len(splitted) != 2:
-                abort()
+                abort(HTTPStatus.BAD_REQUEST, f'Malformed filter requirement {requirement}')
             comparator, criteria = splitted
+            if comparator not in ALLOWED_COMPARISON_OPERATORS:
+                abort(HTTPStatus.BAD_REQUEST, f'Invalid comparison operator {comparator}')
+            criteria = [item.strip() for item in criteria.split(',')]
         return comparator, criteria
+    
+
+    def __extract_from_target(self, target_field: str) -> (str, str):
+        bool_operator = 'and'
+        target = target_field
+        if str(target_field).startswith('['):
+            splitted = str(target_field)[1:].split(']')
+            if len(splitted) != 2:
+                abort(HTTPStatus.BAD_REQUEST, f'Malformed filter target field {target_field}')
+            bool_operator, target = splitted
+            if bool_operator not in ALLOWED_BOOLEAN_OPERATORS:
+                abort(HTTPStatus.BAD_REQUEST, f'Invalid boolean operator {bool_operator}')
+        return bool_operator, target
