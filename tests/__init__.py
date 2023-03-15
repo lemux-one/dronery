@@ -1,6 +1,6 @@
-from .test_sqlite_helper import TestSqliteHelper
-from .test_utils import TestUtils
-from .test_validators import TestValidators
+from .unit.test_sqlite_helper import TestSqliteHelper
+from .unit.test_utils import TestUtils
+from .unit.test_validators import TestValidators
 
-from .test_root_api import TestRootApi
-from .test_drones_handler import TestDronesHandler
+from .integration.test_root_api import TestRootApi
+from .integration.test_drones_handler import TestDronesHandler

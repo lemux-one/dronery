@@ -1,25 +1,33 @@
 import unittest
-import requests as req
 from http import HTTPStatus
 import json
+from boddle import boddle
+import bottle
 
 class TestDronesHandler(unittest.TestCase):
 
+    app = None
+    base_path = '/api/v1/drones'
+
     def setUp(self):
-        self.base_url = 'http://127.0.0.1:8080'
+        if self.app is None:
+            bottle.DEBUG = True
+            from db import sqlite
+            sqlite.helper = sqlite.SqliteHelper(in_memory=True)
+            from db.setup import run_migrations
+            run_migrations(sqlite.helper)
+            import api.v1.drones as drones_app
+            self.app = drones_app
 
-
-    def test_drones_listing(self):
-        try:
-            resp = req.get(self.base_url + '/api/v1/drones')
-        except Exception:
-            self.fail('API server not running')
-        else:
+    def test_handle_list(self):
+        with boddle(path=self.base_path):
+            content = self.app.handle_list()
+            resp = bottle.response
             self.assertIsNotNone(resp)
             self.assertEqual(resp.status_code, HTTPStatus.OK)
             self.assertEqual(resp.headers['Content-Type'], 'application/json')
 
-            payload = json.loads(resp.content)
+            payload = json.loads(content)
             self.assertTrue(isinstance(payload, dict))
             self.assertTrue('status' in payload.keys())
             self.assertEqual(payload['status'], HTTPStatus.OK)
