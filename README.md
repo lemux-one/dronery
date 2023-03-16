@@ -22,6 +22,7 @@ Python based REST API to handle a drones delivery service using the micro framew
 - Cache control headers support (just a general 'no-store' policy at the moment)
 - Access control over management operations (plain old username:password http auth at the moment)
 - Periodic execution of an audit task to log information about battery capacity of the drones (at the moment it is just a another thread running at a fixed interval)
+- Basic filtering via GET parameters for the endpoints listing collections
 
 ## Knwon issues
 - When the server crashes due to an unexpected error, then the thread running the audit task keeps running on its own. This can be easily addressed by moving the audit task execution to an OS dependent scheduler alternative (like cron, systemd, etc) or running the server and the audit task in separate execution contexts. This approach was not used here to keep it simple and portable.
