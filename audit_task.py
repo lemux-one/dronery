@@ -13,7 +13,7 @@ def run():
         else:
             low_batt = 0
             for drone in drones:
-                if drone['battery_capacity'] < conf.LOW_LEVEL:
+                if drone['battery_capacity'] < Config.get('LOW_LEVEL'):
                     low_batt += 1
             log(f'Audit report: Low battery for {low_batt}/{len(drones)} drones', 'AUDIT')
         dbhelper.close()
