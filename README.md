@@ -27,7 +27,8 @@ Python based REST API to handle a drones delivery service using the micro framew
 - When the server crashes due to an unexpected error, then the thread running the audit task keeps running on its own. This can be easily addressed by moving the audit task execution to an OS dependent scheduler alternative (like cron, systemd, etc) or running the server and the audit task in separate execution contexts. This approach was not used here to keep it simple and portable.
 
 ## Note before reading the next sections
-Most of the instructions given below that refers to directory locations use '/' just for the sake of simplicity (the only exception is for the virtual environment activation because it is rather different depending on the shell). On Windows '\' is the correct directory separator to use.
+1. Most of the instructions given below that refers to directory locations use '/' just for the sake of simplicity (the only exception is for the virtual environment activation because it is rather different depending on the shell). On Windows '\' is the correct directory separator to use.
+2. When refering to the Python interpreter it is used the command `python`, again just for simplicity. On Windows systems `python.exe`, `py.exe`, or even `py` may be the ones available. Take the commands given below as a reference and adjust them if required. This may apply also to `pip` command.
 
 ## Requirements
 - Install Python 3.9.7+ (it may work with any Python 3 version but it is only tested against v3.9.7)
