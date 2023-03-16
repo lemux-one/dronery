@@ -27,20 +27,34 @@ Python based REST API to handle a drones delivery service using the micro framew
 ## Knwon issues
 - When the server crashes due to an unexpected error, then the thread running the audit task keeps running on its own. This can be easily addressed by moving the audit task execution to an OS dependent scheduler alternative (like cron, systemd, etc) or running the server and the audit task in separate execution contexts. This approach was not used here to keep it simple and portable.
 
-## Requirements and dependencies
+## Requirements
 - Install Python 3.9.7+ (it may work with any Python 3 version but it is only tested against v3.9.7)
 - Clone repository into a local directory (or simply unzip the downloaded archive)
 - Start a terminal in that directory:
-´
+`
 cd /path/to/project/
-´
+`
 - Create a virtual environment (optional but recommended):
 ´
 python -m venv .venv
-source .venv/bin/activate
 ´
+- Activate the newly created virtual environment:
+    - Bash
+    `
+    source .venv/bin/activate
+    `
+    - Windows CMD
+    `
+    .venv\Scripts\activate.bat
+    `
+    - Powershell
+    `
+    .venv\Scripts\activate.ps1
+    `
+
 ## Test
-- Install dependencies
+- Make sure the previously listed requirements are met
+- Install dependencies:
 ´
 pip install -r ./tests/requirements.txt
 ´
@@ -50,6 +64,7 @@ python -m unittest -v
 ´
 
 ## Start the server
+- Make sure the previously listed requirements are met
 - Install dependencies:
 ´
 pip install -r ./requirements.txt
