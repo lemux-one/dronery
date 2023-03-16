@@ -17,7 +17,7 @@ from api.utils import (
 )
 
 NO_RECORD_MESSAGE = 'Record does not exist'
-ALLOWED_COMPARISON_OPERATORS = ('=', '<=', '>=', '<>', '!=', '<', '>', 'in', 'between',)
+ALLOWED_COMPARISON_OPERATORS = ('=', '<=', '>=', '<>', '!=', '<', '>', 'in',)
 ALLOWED_BOOLEAN_OPERATORS = ('and',)
 
 class Service:
