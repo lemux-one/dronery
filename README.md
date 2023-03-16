@@ -35,42 +35,42 @@ Python based REST API to handle a drones delivery service using the micro framew
 cd /path/to/project/
 `
 - Create a virtual environment (optional but recommended):
-´
+`
 python -m venv .venv
-´
+`
 - Activate the newly created virtual environment:
     - Bash
     `
-    source .venv/bin/activate
+    source ./.venv/bin/activate
     `
     - Windows CMD
     `
-    .venv\Scripts\activate.bat
+    .\.venv\Scripts\activate.bat
     `
     - Powershell
     `
-    .venv\Scripts\activate.ps1
+    .\.venv\Scripts\Activate.ps1
     `
 
 ## Test
 - Make sure the previously listed requirements are met
 - Install dependencies:
-´
+`
 pip install -r ./tests/requirements.txt
-´
+`
 - Run tests:
-´
+`
 python -m unittest -v
-´
+`
 
 ## Start the server
 - Make sure the previously listed requirements are met
 - Install dependencies:
-´
+`
 pip install -r ./requirements.txt
-´
+`
 - Start the server:
-´
+`
 python -m bottle main:root
-´
+`
 - Point your browser to http://localhost:8080
