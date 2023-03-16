@@ -1,0 +1,659 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Dronery",
+    "dateExported": "2023-03-16T12:39:30.729Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "4857e3a1-8aa8-4ad9-bf9b-3080f7dced56",
+            "name": "drones",
+            "containerId": "",
+            "created": "2023-03-14T21:27:00.070Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "7e9a7b31-26d4-49b3-a941-91681bcefa99",
+            "name": "images",
+            "containerId": "",
+            "created": "2023-03-14T21:27:07.620Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "24b44e77-aeab-4047-9b92-0619e95dc527",
+            "name": "medications",
+            "containerId": "",
+            "created": "2023-03-14T21:27:15.015Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "c3e2bca2-992c-418c-b917-216a59e7655a",
+            "name": "loads",
+            "containerId": "",
+            "created": "2023-03-14T21:27:35.007Z",
+            "sortNum": 40000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "13efc080-2b10-4c3b-9751-df8837011554",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "4857e3a1-8aa8-4ad9-bf9b-3080f7dced56",
+            "name": "drones_list",
+            "url": "http://127.0.0.1:8080/api/v1/drones",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-03-11T18:30:31.064Z",
+            "modified": "2023-03-15T18:44:47.453Z",
+            "headers": [],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "custom-header",
+                    "custom": "Content-Type",
+                    "action": "equal",
+                    "value": "application/json"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.status",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.data",
+                    "action": "istype",
+                    "value": "array"
+                }
+            ]
+        },
+        {
+            "_id": "9f92a85e-82d9-4bd9-a1ea-12f09eab9739",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "24b44e77-aeab-4047-9b92-0619e95dc527",
+            "name": "medications_list",
+            "url": "http://127.0.0.1:8080/api/v1/medications",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-03-12T21:59:47.950Z",
+            "modified": "2023-03-14T21:28:41.865Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "c8594f3f-d5a3-4106-ab0a-fbb08bf57b98",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "7e9a7b31-26d4-49b3-a941-91681bcefa99",
+            "name": "images_list",
+            "url": "http://127.0.0.1:8080/api/v1/images",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-03-13T08:13:28.635Z",
+            "modified": "2023-03-14T21:29:08.001Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "7d40082e-9471-46dc-a4e4-710b0fee49dd",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "c3e2bca2-992c-418c-b917-216a59e7655a",
+            "name": "loads_list",
+            "url": "http://127.0.0.1:8080/api/v1/loads",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-03-13T09:33:30.691Z",
+            "modified": "2023-03-14T21:27:50.898Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "dcebe1d0-57f9-4208-bbef-fd3fc0c58f93",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "7e9a7b31-26d4-49b3-a941-91681bcefa99",
+            "name": "image_details",
+            "url": "http://127.0.0.1:8080/api/v1/images/1",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-03-13T08:13:28.682Z",
+            "modified": "2023-03-14T21:29:10.441Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "24df98ae-04f9-47fd-a40b-c10eebf8e914",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "4857e3a1-8aa8-4ad9-bf9b-3080f7dced56",
+            "name": "drones_list_filtered",
+            "url": "http://127.0.0.1:8080/api/v1/drones?state=[in]IDLE,LOADING&battery_capacity=[<=]25",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-03-14T09:51:50.404Z",
+            "modified": "2023-03-14T22:22:34.520Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "state",
+                    "value": "[in]IDLE,LOADING",
+                    "isPath": false
+                },
+                {
+                    "name": "battery_capacity",
+                    "value": "[<=]25",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "c2dc27a1-48f6-41e9-931c-157cb20cccd1",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "24b44e77-aeab-4047-9b92-0619e95dc527",
+            "name": "medications_list_filtered",
+            "url": "http://127.0.0.1:8080/api/v1/medications?weight=[<]50",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-03-14T10:11:33.743Z",
+            "modified": "2023-03-14T21:28:45.489Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "weight",
+                    "value": "[<]50",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "57185b4c-3a43-4c24-b011-da6fc8234d4d",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "c3e2bca2-992c-418c-b917-216a59e7655a",
+            "name": "loads_list_filtered",
+            "url": "http://127.0.0.1:8080/api/v1/loads?drone_id=1",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-03-14T10:13:18.846Z",
+            "modified": "2023-03-14T21:27:54.450Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "drone_id",
+                    "value": "1",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "afb85a4c-3ef2-41d2-8494-23fe04c6cf9a",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "4857e3a1-8aa8-4ad9-bf9b-3080f7dced56",
+            "name": "drone_details",
+            "url": "http://127.0.0.1:8080/api/v1/drones/1",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-03-11T18:31:25.277Z",
+            "modified": "2023-03-14T21:29:56.169Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "61fce200-a6bc-4220-a370-64c842cec12b",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "24b44e77-aeab-4047-9b92-0619e95dc527",
+            "name": "medication_details",
+            "url": "http://127.0.0.1:8080/api/v1/medications/1",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-03-12T23:37:05.843Z",
+            "modified": "2023-03-14T21:28:48.481Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "6ae9e503-5799-4351-82ed-a3ce0ef472e9",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "7e9a7b31-26d4-49b3-a941-91681bcefa99",
+            "name": "image_update",
+            "url": "http://127.0.0.1:8080/api/v1/images/1",
+            "method": "PUT",
+            "sortNum": 30000,
+            "created": "2023-03-13T08:13:28.683Z",
+            "modified": "2023-03-14T21:29:14.145Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"mime\": \"image/png\",\n  \"base64\": \"lkl\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "9339664e-25f4-4642-9814-721e36617f97",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "c3e2bca2-992c-418c-b917-216a59e7655a",
+            "name": "loads_details",
+            "url": "http://127.0.0.1:8080/api/v1/loads/1",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-03-13T09:33:30.692Z",
+            "modified": "2023-03-14T21:27:57.921Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "d67e0d91-49cc-4836-b3ef-24901d274495",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "24b44e77-aeab-4047-9b92-0619e95dc527",
+            "name": "medication_update",
+            "url": "http://127.0.0.1:8080/api/v1/medications/1",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2023-03-12T23:38:33.723Z",
+            "modified": "2023-03-14T21:28:50.705Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Vicodin\",\n  \"weight\": 50,\n  \"code\": \"VC_4589789\",\n  \"image_id\": 1\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "40d74b07-3dc2-4b02-ab81-55ea1334c056",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "7e9a7b31-26d4-49b3-a941-91681bcefa99",
+            "name": "image_create",
+            "url": "http://127.0.0.1:8080/api/v1/images/",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2023-03-13T08:13:28.684Z",
+            "modified": "2023-03-15T19:59:07.805Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"mime\": \"image/png\",\n  \"base64\": \"ASLkfalshfiuehhi\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "bcd32dbf-1edf-40a2-afbf-91d97676f250",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "c3e2bca2-992c-418c-b917-216a59e7655a",
+            "name": "load_update",
+            "url": "http://127.0.0.1:8080/api/v1/loads/1",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2023-03-13T09:33:30.693Z",
+            "modified": "2023-03-16T11:32:24.432Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"drone_id\": 1,\n  \"medication_id\": 1,\n  \"quantity\": 1\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "15c11298-3f2c-4a4f-bfab-46d584ad3bf3",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "4857e3a1-8aa8-4ad9-bf9b-3080f7dced56",
+            "name": "drone_meds_loaded",
+            "url": "http://127.0.0.1:8080/api/v1/drones/2/medications",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2023-03-14T20:11:05.524Z",
+            "modified": "2023-03-14T21:29:59.537Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "9c7c30af-892b-4157-b073-29fd0b7b7173",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "7e9a7b31-26d4-49b3-a941-91681bcefa99",
+            "name": "image_create_auth",
+            "url": "http://127.0.0.1:8080/api/v1/images/",
+            "method": "POST",
+            "sortNum": 45000,
+            "created": "2023-03-15T19:59:10.982Z",
+            "modified": "2023-03-15T20:02:48.626Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"mime\": \"image/png\",\n  \"base64\": \"ASLkfalshfiuehhi\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "basic",
+                "basic": {
+                    "username": "admin",
+                    "password": "admin"
+                }
+            },
+            "tests": []
+        },
+        {
+            "_id": "eac5b40b-ddea-4f57-a31f-2ac9651e6e69",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "24b44e77-aeab-4047-9b92-0619e95dc527",
+            "name": "medication_update_auth",
+            "url": "http://127.0.0.1:8080/api/v1/medications/1",
+            "method": "PUT",
+            "sortNum": 45000,
+            "created": "2023-03-16T11:17:47.855Z",
+            "modified": "2023-03-16T11:18:09.883Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Vicodin\",\n  \"weight\": 50,\n  \"code\": \"VC_4589789\",\n  \"image_id\": 1\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "basic",
+                "basic": {
+                    "username": "admin",
+                    "password": "admin"
+                }
+            },
+            "tests": []
+        },
+        {
+            "_id": "c34f2462-5b19-4f87-aa35-12340255d57a",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "4857e3a1-8aa8-4ad9-bf9b-3080f7dced56",
+            "name": "drone_update",
+            "url": "http://127.0.0.1:8080/api/v1/drones/1",
+            "method": "PUT",
+            "sortNum": 50000,
+            "created": "2023-03-11T18:32:55.785Z",
+            "modified": "2023-03-14T21:30:03.193Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"serial_number\": \"LKJOEWIJFOWIE\",\n  \"model\": \"Lightweight\",\n  \"weight_limit\": 150,\n  \"battery_capacity\": 15,\n  \"state\": \"IDLE\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "48aeada7-9829-403a-b446-c83e87eac7a4",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "24b44e77-aeab-4047-9b92-0619e95dc527",
+            "name": "medication_create",
+            "url": "http://127.0.0.1:8080/api/v1/medications/",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-03-12T23:41:20.803Z",
+            "modified": "2023-03-14T21:28:53.233Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Aspirin\",\n  \"weight\": 80,\n  \"code\": \"ASP_866TUY_456\",\n  \"image_id\": 1\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "94bb814b-8517-4aff-b160-ff9c5b37ceed",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "7e9a7b31-26d4-49b3-a941-91681bcefa99",
+            "name": "image_delete",
+            "url": "http://127.0.0.1:8080/api/v1/images/2",
+            "method": "DELETE",
+            "sortNum": 50000,
+            "created": "2023-03-13T08:13:28.685Z",
+            "modified": "2023-03-14T21:29:18.217Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "7b2f7631-ac90-4c04-ba6c-cafd3efe01f3",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "c3e2bca2-992c-418c-b917-216a59e7655a",
+            "name": "load_create",
+            "url": "http://127.0.0.1:8080/api/v1/loads/",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-03-13T09:33:30.694Z",
+            "modified": "2023-03-14T21:28:04.369Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"drone_id\": 1,\n  \"medication_id\": 1,\n  \"quantity\": 1\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "c4085023-b765-4e43-a612-9bb1c48181bb",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "24b44e77-aeab-4047-9b92-0619e95dc527",
+            "name": "medication_create_auth",
+            "url": "http://127.0.0.1:8080/api/v1/medications/",
+            "method": "POST",
+            "sortNum": 55000,
+            "created": "2023-03-16T11:15:02.988Z",
+            "modified": "2023-03-16T11:15:49.888Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Dipirone\",\n  \"weight\": 68,\n  \"code\": \"DIP_866TUY_458\",\n  \"image_id\": 1\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "basic",
+                "basic": {
+                    "username": "admin",
+                    "password": "admin"
+                }
+            },
+            "tests": []
+        },
+        {
+            "_id": "583fce0a-ebb9-4fb4-b56a-b1b6ff495cb0",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "24b44e77-aeab-4047-9b92-0619e95dc527",
+            "name": "medication_delete",
+            "url": "http://127.0.0.1:8080/api/v1/medications/2",
+            "method": "DELETE",
+            "sortNum": 60000,
+            "created": "2023-03-12T23:52:38.628Z",
+            "modified": "2023-03-14T21:28:55.434Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "f246525a-9e64-4084-9f8d-657721b2799c",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "c3e2bca2-992c-418c-b917-216a59e7655a",
+            "name": "load_delete",
+            "url": "http://127.0.0.1:8080/api/v1/loads/1",
+            "method": "DELETE",
+            "sortNum": 60000,
+            "created": "2023-03-13T09:33:30.695Z",
+            "modified": "2023-03-14T21:28:16.256Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "9421305f-5428-4829-86b0-9873b1512482",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "4857e3a1-8aa8-4ad9-bf9b-3080f7dced56",
+            "name": "drone_update_auth",
+            "url": "http://127.0.0.1:8080/api/v1/drones/1",
+            "method": "PUT",
+            "sortNum": 60000,
+            "created": "2023-03-14T12:51:39.351Z",
+            "modified": "2023-03-14T21:30:06.049Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"serial_number\": \"LKJOEWIJFOWIE\",\n  \"model\": \"Lightweight\",\n  \"weight_limit\": 150,\n  \"battery_capacity\": 15,\n  \"state\": \"IDLE\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "basic",
+                "basic": {
+                    "username": "admin",
+                    "password": "admin"
+                }
+            },
+            "tests": []
+        },
+        {
+            "_id": "6a41f20c-48f5-4f13-8289-97a59072143c",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "7e9a7b31-26d4-49b3-a941-91681bcefa99",
+            "name": "image_delete_auth",
+            "url": "http://127.0.0.1:8080/api/v1/images/2",
+            "method": "DELETE",
+            "sortNum": 60000,
+            "created": "2023-03-15T22:29:33.924Z",
+            "modified": "2023-03-15T22:30:14.147Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "basic",
+                "basic": {
+                    "username": "admin",
+                    "password": "admin"
+                }
+            },
+            "tests": []
+        },
+        {
+            "_id": "dfa2ed35-833f-4edf-9615-c87b4fb7f0a5",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "4857e3a1-8aa8-4ad9-bf9b-3080f7dced56",
+            "name": "drone_create",
+            "url": "http://127.0.0.1:8080/api/v1/drones/",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2023-03-12T17:40:01.624Z",
+            "modified": "2023-03-14T21:30:08.609Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"serial_number\": \"ASKDASKD498465\",\n  \"model\": \"Middleweight\",\n  \"weight_limit\": 300.5,\n  \"battery_capacity\": 100,\n  \"state\": \"IDLE\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "32db1108-6d9a-43ef-a284-0342dcf160bf",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "24b44e77-aeab-4047-9b92-0619e95dc527",
+            "name": "medication_delete_auth",
+            "url": "http://127.0.0.1:8080/api/v1/medications/1",
+            "method": "DELETE",
+            "sortNum": 70000,
+            "created": "2023-03-15T22:37:46.740Z",
+            "modified": "2023-03-15T22:40:12.975Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "basic",
+                "basic": {
+                    "username": "admin",
+                    "password": "admin"
+                }
+            },
+            "tests": []
+        },
+        {
+            "_id": "8f57092a-77f6-48e5-9d41-6a4465ae56c6",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "4857e3a1-8aa8-4ad9-bf9b-3080f7dced56",
+            "name": "drone_create_auth",
+            "url": "http://127.0.0.1:8080/api/v1/drones/",
+            "method": "POST",
+            "sortNum": 80000,
+            "created": "2023-03-14T12:50:00.830Z",
+            "modified": "2023-03-16T10:43:28.708Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"serial_number\": \"LASKDWEOIR\",\n  \"model\": \"Middleweight\",\n  \"weight_limit\": 10,\n  \"battery_capacity\": 100,\n  \"state\": \"IDLE\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "basic",
+                "basic": {
+                    "username": "admin",
+                    "password": "admin"
+                }
+            },
+            "tests": []
+        },
+        {
+            "_id": "4e6959a5-bea0-4148-9ee3-faaf44ba3152",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "4857e3a1-8aa8-4ad9-bf9b-3080f7dced56",
+            "name": "drone_delete",
+            "url": "http://127.0.0.1:8080/api/v1/drones/2",
+            "method": "DELETE",
+            "sortNum": 90000,
+            "created": "2023-03-12T18:32:12.733Z",
+            "modified": "2023-03-14T21:30:12.889Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "1903a3b5-903f-4d13-8214-38019045d1ba",
+            "colId": "5494adf1-d1f0-4857-ad18-db4cac228eec",
+            "containerId": "4857e3a1-8aa8-4ad9-bf9b-3080f7dced56",
+            "name": "drone_delete_auth",
+            "url": "http://127.0.0.1:8080/api/v1/drones/10",
+            "method": "DELETE",
+            "sortNum": 100000,
+            "created": "2023-03-14T12:52:07.246Z",
+            "modified": "2023-03-16T11:04:54.544Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "basic",
+                "basic": {
+                    "username": "admin",
+                    "password": "admin"
+                }
+            },
+            "tests": []
+        }
+    ],
+    "settings": {
+        "headers": [],
+        "tests": []
+    }
+}
