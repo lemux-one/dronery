@@ -11,7 +11,7 @@ A Drone has:
 model = Model(table='drones')
 model.add_field(Field(name='drone_id', dtype=Field.INTEGER_TYPE, pk=True))
 model.add_field(Field(name='serial_number', dtype=Field.VARCHAR_TYPE, 
-    max=100, unique=True))
+    min=1, max=100, unique=True))
 model.add_field(Field(name='model', dtype=Field.SELECT_TYPE, 
     options=['Lightweight', 'Middleweight', 'Cruiserweight', 'Heavyweight']))
 model.add_field(Field(name='weight_limit', dtype=Field.DOUBLE_TYPE, 
