@@ -72,3 +72,147 @@ def handle_delete(id):
     '''
     service.delete_by_id(id, foreign_tables=[medication_model.table])
     return data_response({})
+
+
+handler.HELP = '''
+<div>
+<ul>
+    <li>
+        <details>
+            <summary>GET /images</summary>
+            <div>
+                <h4>Request</h4>
+                <pre>
+curl -X GET 'http://127.0.0.1:8080/api/v1/images'
+                </pre>
+                <h4>Response</h4>
+                <pre>
+{
+    "status": 200,
+    "data": [
+        {
+            "image_id": 1,
+            "mime": "image/jpeg",
+            "base64": "/9j/4AAQSkZJRgABAQAAAQABAA...ACAEAIAQAgP//Z"
+        },
+        ...
+    ]
+}
+                </pre>
+                <details>
+                    <summary>Filtering</summary>
+                    <div>
+                        <h4>Optional parameters to filter the results</h4>
+                        <p>To enable filtering append a query part to the endpoint with the following strutcture:</p>
+                        <pre>
+?field=[operator]value[,value2,...][&field=[operator]value[,value2,...]]
+                        </pre>
+                        <p>Where:</p>
+                        <ul>
+                            <li>"field" can be any of the object's attributes</li>
+                            <li>the [ ] represents optional elements</li>
+                            <li>"operator" can be one of ('=', '<=', '>=', '<>', '!=', '<', '>', 'in') with '=' as default if not especified</li>
+                        </ul>
+                        <p>For instance:</p>
+                        <pre>
+?mime=image/jpeg
+                        </pre>
+                    </div>
+                </details>
+            </div>
+        </details>
+    </li>
+    
+    <li>
+        <details>
+            <summary>POST /images</summary>
+            <div>
+                <h4>Request</h4>
+                <pre>
+curl -X POST 'http://127.0.0.1:8080/api/v1/images/'
+--header 'Authorization: Basic YWRtaW46YWRtaW4='
+--header 'Content-Type: application/json'
+--data-raw '{
+    "mime": "image/png",
+    "base64": "/9j/4AAQSkZJRgABAQAAAQABAA...ACAEAIAQAgP//Z"
+}'
+                </pre>
+                <h4>Response</h4>
+                <pre>
+HEADER Location: /api/v1/images/7
+{
+    "status": 201,
+    "data": {}
+}
+                </pre>
+            </div>
+        </details>
+    </li>
+
+    <li>
+        <details>
+            <summary>GET /images/id:int</summary>
+            <div>
+                <h4>Request</h4>
+                <pre>
+curl -X GET 'http://127.0.0.1:8080/api/v1/images/1'
+                </pre>
+                <h4>Response</h4>
+                <pre>
+{
+    "status": 200,
+    "data": {
+        "image_id": 1,
+        "mime": "image/jpeg",
+        "base64": "/9j/4AAQSkZJRgABAQAAAQABAA...ACAEAIAQAgP//Z"
+  }
+}
+                </pre>
+            </div>
+        </details>
+    </li>
+
+    <li>
+        <details>
+            <summary>PUT /images/id:int</summary>
+            <div>
+                <h4>Request</h4>
+                <pre>
+curl -X PUT 'http://127.0.0.1:8080/api/v1/images/1'
+--header 'Authorization: Basic YWRtaW46YWRtaW4='
+--header 'Content-Type: application/json'
+--data-raw '{
+    "mime": "image/png",
+    "base64": "/9j/4AAQSkZJRgABAQAAAQABAA...ACAEAIAQAgP//Z"
+}'
+                </pre>
+                <h4>Response</h4>
+                <pre>
+HTTP 204 No Content
+                </pre>
+            </div>
+        </details>
+    </li>
+
+    <li>
+        <details>
+            <summary>DELETE /images/id:int</summary>
+            <div>
+                <h4>Request</h4>
+                <pre>
+curl -X DELETE 'http://127.0.0.1:8080/api/v1/images/1'
+                </pre>
+                <h4>Response</h4>
+                <pre>
+{
+    "status": 200,
+    "data": {}
+}
+                </pre>
+            </div>
+        </details>
+    </li>
+
+</ul>
+</div>
+'''

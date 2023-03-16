@@ -12,12 +12,32 @@ handler.mount('/loads', loads_handler)
 
 @handler.get('/')
 def handle_root():
-    return '''<h1>API v1:</h1>
+    return f'''<h1>API v1:</h1>
     <h2>Available endpoints:</h2>
     <ul>
-        <li><a href="drones">Drones</a></li>
-        <li><a href="medications">Medications</a></li>
-        <li><a href="images">Images</a></li>
-        <li><a href="loads">Loads</a></li>
+        <li>
+            <details>
+            <summary>Drones</summary>
+            {drones_handler.HELP}
+            </details>
+        </li>
+        <li>
+            <details>
+            <summary>Medications</summary>
+            {medications_handler.HELP}
+            </details>
+        </li>
+        <li>
+            <details>
+            <summary>Images</summary>
+            {images_handler.HELP}
+            </details>
+        </li>
+        <li>
+            <details>
+            <summary>Loads</summary>
+            {loads_handler.HELP}
+            </details>
+        </li>
     </ul>
     '''

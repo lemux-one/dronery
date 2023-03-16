@@ -26,6 +26,7 @@ model = service.model
 #
 handler = ApiBottle()
 
+
 @handler.get('/')
 def handle_list():
     '''
@@ -93,3 +94,193 @@ def handle_loaded_medications(id):
         med['load'] = load
         meds_list.append(med)
     return data_response(meds_list)
+
+
+handler.HELP = '''
+<div>
+<ul>
+    <li>
+        <details>
+            <summary>GET /drones</summary>
+            <div>
+                <h4>Request</h4>
+                <pre>
+curl -X GET 'http://127.0.0.1:8080/api/v1/drones'
+                </pre>
+                <h4>Response</h4>
+                <pre>
+{
+    "status": 200,
+    "data": [
+        {
+            "drone_id": 1,
+            "serial_number": "QWOIEJO1202115",
+            "model": "Lightweight",
+            "weight_limit": 250.0,
+            "battery_capacity": 80,
+            "state": "IDLE"
+        },
+        ...
+    ]
+}
+                </pre>
+                <details>
+                    <summary>Filtering</summary>
+                    <div>
+                        <h4>Optional parameters to filter the results</h4>
+                        <p>To enable filtering append a query part to the endpoint with the following strutcture:</p>
+                        <pre>
+?field=[operator]value[,value2,...][&field=[operator]value[,value2,...]]
+                        </pre>
+                        <p>Where:</p>
+                        <ul>
+                            <li>"field" can be any of the object's attributes</li>
+                            <li>the [ ] represents optional elements</li>
+                            <li>"operator" can be one of ('=', '<=', '>=', '<>', '!=', '<', '>', 'in') with '=' as default if not especified</li>
+                        </ul>
+                        <p>For instance:</p>
+                        <pre>
+?state=[in]IDLE,LOADING&battery_capacity=[<=]25
+                        </pre>
+                    </div>
+                </details>
+            </div>
+        </details>
+    </li>
+    
+    <li>
+        <details>
+            <summary>POST /drones</summary>
+            <div>
+                <h4>Request</h4>
+                <pre>
+curl -X POST 'http://127.0.0.1:8080/api/v1/drones/'
+--header 'Authorization: Basic YWRtaW46YWRtaW4='
+--header 'Content-Type: application/json'
+--data-raw '{
+    "serial_number": "LASKDWEOIR",
+    "model": "Middleweight",
+    "weight_limit": 10,
+    "battery_capacity": 100,
+    "state": "IDLE"
+}'
+                </pre>
+                <h4>Response</h4>
+                <pre>
+HEADER Location: /api/v1/drones/10
+{
+    "status": 201,
+    "data": {}
+}
+                </pre>
+            </div>
+        </details>
+    </li>
+
+    <li>
+        <details>
+            <summary>GET /drones/id:int</summary>
+            <div>
+                <h4>Request</h4>
+                <pre>
+curl -X GET 'http://127.0.0.1:8080/api/v1/drones/1'
+                </pre>
+                <h4>Response</h4>
+                <pre>
+{
+    "status": 200,
+    "data": {
+        "drone_id": 1,
+        "serial_number": "QWOIEJO1202115",
+        "model": "Lightweight",
+        "weight_limit": 250.0,
+        "battery_capacity": 80,
+        "state": "IDLE"
+    }
+}
+                </pre>
+            </div>
+        </details>
+    </li>
+
+    <li>
+        <details>
+            <summary>PUT /drones/id:int</summary>
+            <div>
+                <h4>Request</h4>
+                <pre>
+curl -X PUT 'http://127.0.0.1:8080/api/v1/drones/1'
+--header 'Authorization: Basic YWRtaW46YWRtaW4='
+--header 'Content-Type: application/json'
+--data-raw '{
+    "serial_number": "LASKDWEOIR",
+    "model": "Middleweight",
+    "weight_limit": 10,
+    "battery_capacity": 100,
+    "state": "IDLE"
+}'
+                </pre>
+                <h4>Response</h4>
+                <pre>
+HTTP 204 No Content
+                </pre>
+            </div>
+        </details>
+    </li>
+
+    <li>
+        <details>
+            <summary>DELETE /drones/id:int</summary>
+            <div>
+                <h4>Request</h4>
+                <pre>
+curl -X DELETE 'http://127.0.0.1:8080/api/v1/drones/1'
+                </pre>
+                <h4>Response</h4>
+                <pre>
+{
+    "status": 200,
+    "data": {}
+}
+                </pre>
+            </div>
+        </details>
+    </li>
+
+    <li>
+        <details>
+            <summary>GET /drones/id:int/medications</summary>
+            <div>
+                <h4>Request</h4>
+                <pre>
+curl -X GET 'http://127.0.0.1:8080/api/v1/drones/2/medications'
+                </pre>
+                <h4>Response</h4>
+                <pre>
+{
+  "status": 200,
+  "data": [
+    {
+      "medication_id": 1,
+      "name": "Dalsy",
+      "weight": 50.0,
+      "code": "DALSY_1520",
+      "image_id": 1,
+      "load": {
+        "load_id": 1,
+        "drone_id": 2,
+        "medication_id": 1,
+        "quantity": 2
+      }
+    },
+    ...
+  ]
+}
+                </pre>
+            </div>
+        </details>
+    </li>
+
+</ul>
+</div>
+'''

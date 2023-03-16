@@ -122,3 +122,151 @@ def __check_drone_constraints(drone: dict):
     load_weight = medication['weight'] * model.obj['quantity']
     if total_weight + load_weight > drone['weight_limit']:
         abort(HTTPStatus.CONFLICT, 'Load exceeds weight limit')
+
+
+handler.HELP = '''
+<div>
+<ul>
+    <li>
+        <details>
+            <summary>GET /loads</summary>
+            <div>
+                <h4>Request</h4>
+                <pre>
+curl -X GET 'http://127.0.0.1:8080/api/v1/loads'
+                </pre>
+                <h4>Response</h4>
+                <pre>
+{
+    "status": 200,
+    "data": [
+        {
+            "load_id": 1,
+            "drone_id": 2,
+            "medication_id": 1,
+            "quantity": 2
+        },
+        ...
+    ]
+}
+                </pre>
+                <details>
+                    <summary>Filtering</summary>
+                    <div>
+                        <h4>Optional parameters to filter the results</h4>
+                        <p>To enable filtering append a query part to the endpoint with the following strutcture:</p>
+                        <pre>
+?field=[operator]value[,value2,...][&field=[operator]value[,value2,...]]
+                        </pre>
+                        <p>Where:</p>
+                        <ul>
+                            <li>"field" can be any of the object's attributes</li>
+                            <li>the [ ] represents optional elements</li>
+                            <li>"operator" can be one of ('=', '<=', '>=', '<>', '!=', '<', '>', 'in') with '=' as default if not especified</li>
+                        </ul>
+                        <p>For instance:</p>
+                        <pre>
+?quantity=[>]10
+                        </pre>
+                    </div>
+                </details>
+            </div>
+        </details>
+    </li>
+    
+    <li>
+        <details>
+            <summary>POST /loads</summary>
+            <div>
+                <h4>Request</h4>
+                <pre>
+curl -X POST 'http://127.0.0.1:8080/api/v1/loads/'
+--header 'Authorization: Basic YWRtaW46YWRtaW4='
+--header 'Content-Type: application/json'
+--data-raw '{
+    "drone_id": 1,
+    "medication_id": 1,
+    "quantity": 1
+}'
+                </pre>
+                <h4>Response</h4>
+                <pre>
+HEADER Location: /api/v1/loads/4
+{
+    "status": 201,
+    "data": {}
+}
+                </pre>
+            </div>
+        </details>
+    </li>
+
+    <li>
+        <details>
+            <summary>GET /loads/id:int</summary>
+            <div>
+                <h4>Request</h4>
+                <pre>
+curl -X GET 'http://127.0.0.1:8080/api/v1/loads/1'
+                </pre>
+                <h4>Response</h4>
+                <pre>
+{
+    "status": 200,
+    "data": {
+        "load_id": 1,
+        "drone_id": 2,
+        "medication_id": 1,
+        "quantity": 2
+  }
+}
+                </pre>
+            </div>
+        </details>
+    </li>
+
+    <li>
+        <details>
+            <summary>PUT /loads/id:int</summary>
+            <div>
+                <h4>Request</h4>
+                <pre>
+curl -X PUT 'http://127.0.0.1:8080/api/v1/loads/1'
+--header 'Authorization: Basic YWRtaW46YWRtaW4='
+--header 'Content-Type: application/json'
+--data-raw '{
+    "drone_id": 1,
+    "medication_id": 1,
+    "quantity": 1
+}'
+                </pre>
+                <h4>Response</h4>
+                <pre>
+HTTP 204 No Content
+                </pre>
+            </div>
+        </details>
+    </li>
+
+    <li>
+        <details>
+            <summary>DELETE /loads/id:int</summary>
+            <div>
+                <h4>Request</h4>
+                <pre>
+curl -X DELETE 'http://127.0.0.1:8080/api/v1/loads/4'
+                </pre>
+                <h4>Response</h4>
+                <pre>
+{
+    "status": 200,
+    "data": {}
+}
+                </pre>
+            </div>
+        </details>
+    </li>
+
+</ul>
+</div>
+'''
