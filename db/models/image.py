@@ -8,4 +8,4 @@ An image has:
 model = Model(table='images')
 model.add_field(Field(name='image_id', dtype=Field.INTEGER_TYPE, pk=True))
 model.add_field(Field(name='mime', dtype=Field.VARCHAR_TYPE, regex=r'^image/(png|jpeg)$'))
-model.add_field(Field(name='base64', dtype=Field.VARCHAR_TYPE))
+model.add_field(Field(name='base64', dtype=Field.VARCHAR_TYPE, min=1))
