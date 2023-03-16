@@ -19,7 +19,7 @@ Python based REST API to handle a drones delivery service using the micro framew
 - Loads management through '/api/v#/loads' endpoint
 - CORS enabled for browser based clients
 - Cache control headers support (just a general 'no-store' policy at the moment)
-- Access control over management operations (plain old username:password http auth at the moment)
+- Access control over management operations (plain old admin:admin http auth at the moment)
 - Periodic execution of an audit task to log information about battery capacity of the drones (at the moment it is just a another thread running at a fixed interval)
 - Basic filtering via GET parameters for the endpoints listing collections
 
